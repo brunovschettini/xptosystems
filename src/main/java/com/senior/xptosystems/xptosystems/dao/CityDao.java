@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.senior.xptosystems.xptosystems.controllers;
+package com.senior.xptosystems.xptosystems.dao;
 
-import org.springframework.stereotype.Service;
-
-@Service
-public class CityService {
+/**
+ *
+ * @author rtools2
+ */
+public class CityDao {
     
 }
