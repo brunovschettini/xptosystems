@@ -1,9 +1,10 @@
 package com.senior.xptosystems.xptosystems.model;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-public class Mesoregion {
+public class Mesoregion implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

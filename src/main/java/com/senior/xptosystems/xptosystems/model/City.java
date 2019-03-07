@@ -1,55 +1,79 @@
 package com.senior.xptosystems.xptosystems.model;
 
-
-
+import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(
         name = "city",
-    //uniqueConstraints = @UniqueConstraint(columnNames = {"name", "uf_id"})
-    uniqueConstraints = @UniqueConstraint(columnNames = {"ibge_code"})
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"name", "uf_id"})
+            ,
+            @UniqueConstraint(columnNames = {"ibge_id"})
+
+        }
 )
-public class City {
+public class City implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "ibge_code", nullable = false)
+    @JoinColumn
+    @Column(name = "ibge_id", nullable = false)
     private Long ibge_code;
+
+    @JoinColumn
+    @OneToOne
+    private Uf uf;
 
     @Column(nullable = false, length = 255, columnDefinition = "varchar(255) default ''")
     private String name;
 
-    @JoinColumn
-    @OneToMany
-    private Uf uf;
-
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "BINARY(0)")
     private Boolean capital;
 
-    @Column(nullable = false, precision = 12, scale = 10)
-    private BigDecimal lon;
+    @Column(nullable = false, precision = 12, scale = 10, columnDefinition = "double precision default 0")
+    private Double lon;
 
-    @Column(nullable = false, precision = 12, scale = 10)
-    private BigDecimal lat;
+    @Column(nullable = false, precision = 12, scale = 10, columnDefinition = "double precision  default 0")
+    private Double lat;
+
+    @Column(name = "no_accents", nullable = false, length = 100, columnDefinition = "varchar(100) default ''")
+    private String noAccents;
+    @Column(name = "alternative_names", nullable = false, length = 100, columnDefinition = "varchar(100) default ''")
+    private String alternativeNames;
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private Microregion microregions;
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private Mesoregion mesoregions;
+    @Column(name = "created_at", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
     public City() {
         // this.uf = null;
 
     }
 
-    public City(Long id, Long ibge_code, String name, Uf uf, Boolean capital, BigDecimal lon, BigDecimal lat) {
+    public City(Long id, Long ibge_code, Uf uf, String name, Boolean capital, Double lon, Double lat, String noAccents, String alternativeNames, Microregion microregions, Mesoregion mesoregions, Date createdAt) {
         this.id = id;
         this.ibge_code = ibge_code;
-        this.name = name;
         this.uf = uf;
+        this.name = name;
         this.capital = capital;
         this.lon = lon;
         this.lat = lat;
+        this.noAccents = noAccents;
+        this.alternativeNames = alternativeNames;
+        this.microregions = microregions;
+        this.mesoregions = mesoregions;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -92,21 +116,69 @@ public class City {
         this.capital = capital;
     }
 
-    public BigDecimal getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(BigDecimal lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 
-    public BigDecimal getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(BigDecimal lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
+
+    public String getNoAccents() {
+        return noAccents;
+    }
+
+    public void setNoAccents(String noAccents) {
+        this.noAccents = noAccents;
+    }
+
+    public String getAlternativeNames() {
+        return alternativeNames;
+    }
+
+    public void setAlternativeNames(String alternativeNames) {
+        this.alternativeNames = alternativeNames;
+    }
+
+    public Microregion getMicroregions() {
+        return microregions;
+    }
+
+    public void setMicroregions(Microregion microregions) {
+        this.microregions = microregions;
+    }
+
+    public Mesoregion getMesoregions() {
+        return mesoregions;
+    }
+
+    public void setMesoregions(Mesoregion mesoregions) {
+        this.mesoregions = mesoregions;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    void preInsert() {
+        if (this.createdAt == null) {
+            this.createdAt = new Date();
+        }
+    }
+
     //    @JoinColumn(nullable = false)
 //    @ManyToOne
 //    private Uf uf;
@@ -129,7 +201,6 @@ public class City {
 //    @Column(name = "created_at", nullable = false)
 //    @Temporal(TemporalType.TIMESTAMP)
 //    private Date createdAt;
-
 //    public City() {
 //
 //    }

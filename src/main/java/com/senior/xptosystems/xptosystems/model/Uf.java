@@ -1,16 +1,17 @@
 package com.senior.xptosystems.xptosystems.model;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-public class Uf {
+public class Uf implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 2, columnDefinition = "varchar(2) default ''")
     private String name;
 
     public Uf() {

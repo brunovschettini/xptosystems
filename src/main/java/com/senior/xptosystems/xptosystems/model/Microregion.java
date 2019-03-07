@@ -1,14 +1,15 @@
 package com.senior.xptosystems.xptosystems.model;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-public class Microregion {
+public class Microregion implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 100, columnDefinition = "varchar(100) default ''")
     private String name;
 
     public Microregion() {
