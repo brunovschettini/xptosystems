@@ -207,7 +207,7 @@ public class CityRestController {
         } catch (Exception e) {
             result.setStatus_code(0);
             result.setStatus("city e->" + e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         result.setStatus("success: city nº " + city.getId() + " registered");
         result.setResult(city);
@@ -281,7 +281,7 @@ public class CityRestController {
         } catch (Exception e) {
             result.setStatus_code(0);
             result.setStatus("city e->" + e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         result.setStatus("success: city nº " + city.getId() + " registered");
         result.setResult(city);
@@ -297,7 +297,7 @@ public class CityRestController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         City city = cityRepository.getOne(id);
-        if (city == null) {
+        if (city == null || city.getId() == null) {
             result.setStatus_code(0);
             result.setStatus("empty city!");
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
@@ -308,7 +308,7 @@ public class CityRestController {
         } catch (Exception e) {
             result.setStatus_code(0);
             result.setStatus("city e->" + e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         result.setStatus("success: city nº " + city.getId() + " removed");
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -323,7 +323,7 @@ public class CityRestController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         City city = cityRepository.findByIbge_id(ibge_id);
-        if (city == null) {
+        if (city == null || city.getId() == null) {
             result.setStatus_code(0);
             result.setStatus("empty city!");
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
