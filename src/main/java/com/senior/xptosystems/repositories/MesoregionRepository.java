@@ -1,6 +1,6 @@
-package com.senior.xptosystems.xptosystems.repositories;
+package com.senior.xptosystems.repositories;
 
-import com.senior.xptosystems.xptosystems.model.Mesoregion;
+import com.senior.xptosystems.model.Mesoregion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

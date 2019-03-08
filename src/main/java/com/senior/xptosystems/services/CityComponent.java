@@ -1,16 +1,16 @@
-package com.senior.xptosystems.xptosystems.services;
+package com.senior.xptosystems.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
-import com.senior.xptosystems.xptosystems.config.Resources;
-import com.senior.xptosystems.xptosystems.model.City;
-import com.senior.xptosystems.xptosystems.model.Mesoregion;
-import com.senior.xptosystems.xptosystems.model.Microregion;
-import com.senior.xptosystems.xptosystems.model.Uf;
-import com.senior.xptosystems.xptosystems.repositories.CityRepository;
-import com.senior.xptosystems.xptosystems.repositories.MesoregionRepository;
-import com.senior.xptosystems.xptosystems.repositories.MicroregionRepository;
-import com.senior.xptosystems.xptosystems.repositories.UfRepository;
+import com.senior.xptosystems.config.Resources;
+import com.senior.xptosystems.model.City;
+import com.senior.xptosystems.model.Mesoregion;
+import com.senior.xptosystems.model.Microregion;
+import com.senior.xptosystems.model.Uf;
+import com.senior.xptosystems.repositories.CityRepository;
+import com.senior.xptosystems.repositories.MesoregionRepository;
+import com.senior.xptosystems.repositories.MicroregionRepository;
+import com.senior.xptosystems.repositories.UfRepository;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,9 +65,14 @@ public class CityComponent implements ICityComponent {
             CSVReader reader = new CSVReader(new InputStreamReader(fis));
             String[] nextLine;
             reader.readNext();
+            int i = 0;
             while ((nextLine = reader.readNext()) != null) {
                 City c = new City(Long.parseLong(nextLine[0]), nextLine[1], nextLine[2], Boolean.parseBoolean(nextLine[3]), Double.parseDouble(nextLine[4]), Double.parseDouble(nextLine[5]), nextLine[6], nextLine[7], nextLine[8], nextLine[9]);
                 cities.add(c);
+                i++;
+                if(i == 1000) {
+                    break;
+                }
             }
             return cities;
         } catch (FileNotFoundException ex) {

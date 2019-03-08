@@ -1,4 +1,4 @@
-package com.senior.xptosystems.xptosystems.controllers;
+package com.senior.xptosystems.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
-package com.senior.xptosystems.xptosystems.config;
+package com.senior.xptosystems.config;
 
-import com.senior.xptosystems.xptosystems.model.City;
-import com.senior.xptosystems.xptosystems.services.ICityComponent;
+import com.senior.xptosystems.model.City;
+import com.senior.xptosystems.services.ICityComponent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;

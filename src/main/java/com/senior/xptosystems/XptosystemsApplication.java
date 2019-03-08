@@ -1,4 +1,4 @@
-package com.senior.xptosystems.xptosystems;
+package com.senior.xptosystems;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

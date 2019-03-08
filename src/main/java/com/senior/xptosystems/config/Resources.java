@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.senior.xptosystems.xptosystems.config;
+package com.senior.xptosystems.config;
 
 public class Resources {
 

@@ -1,21 +1,21 @@
-package com.senior.xptosystems.xptosystems.model;
+package com.senior.xptosystems.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-public class Mesoregion implements Serializable {
+public class Microregion implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 100, columnDefinition = "varchar(100) default ''")
     private String name;
 
-    public Mesoregion() {
+    public Microregion() {
     }
 
-    public Mesoregion(Long id, String name) {
+    public Microregion(Long id, String name) {
         this.id = id;
         this.name = name;
     }

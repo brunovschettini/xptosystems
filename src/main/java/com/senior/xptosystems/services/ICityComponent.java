@@ -1,6 +1,6 @@
-package com.senior.xptosystems.xptosystems.services;
+package com.senior.xptosystems.services;
 
-import com.senior.xptosystems.xptosystems.model.City;
+import com.senior.xptosystems.model.City;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,4 +1,4 @@
-package com.senior.xptosystems.xptosystems.utils;
+package com.senior.xptosystems.utils;
 
 import java.io.Serializable;
 
