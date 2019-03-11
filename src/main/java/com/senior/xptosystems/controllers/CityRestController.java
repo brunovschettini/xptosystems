@@ -139,9 +139,9 @@ public class CityRestController {
         return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/find/id/{id}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}", produces = "application/json")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-        City city = cityRepository.getOne(id);
+        City city = cityRepository.findById(id).get();
         if (city == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -271,7 +271,7 @@ public class CityRestController {
     public ResponseEntity<?> deleteByIbgeId(@PathVariable("ibge_id") Long ibge_id) {
         City city = cityRepository.findByIbge_id(ibge_id);
         if (city == null || city.getId() == null) {
-            return new ResponseEntity<>(Error.BAD_REQUEST("empty city!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("city not found!"), HttpStatus.NOT_FOUND);
         }
         try {
             cityRepository.delete(city);
