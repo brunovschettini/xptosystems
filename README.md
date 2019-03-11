@@ -98,7 +98,7 @@ Param:
 
 Exemplo: http://localhost/api/city/find/capitals
 
-Resposta:
+Resposta (Http Status 200):
 
     [
         {
@@ -162,7 +162,8 @@ Resposta:
 
 Exemplo: http://localhost/api//city/stats/min_max_uf
 
-Resposta:
+Resposta (Http Status 200):
+
     [
         [
             "bigger",
@@ -182,7 +183,7 @@ Resposta:
 
 Exemplo: http://localhost/api/city/stats/count/cities/uf/ac
 
-Resposta:
+Resposta (Http Status 200):
 
     {
         "uf": "AC",
@@ -195,7 +196,7 @@ Resposta:
 
 Exemplo: http://localhost/api/city/find/ibge_id/1234567
 
-Resposta:
+Resposta (Http Status 200):
 
     {
         "id": null,
@@ -230,7 +231,7 @@ Resposta:
 
 Example: http://localhost/api/city/find/uf/sp
 
-Resposta:
+Resposta (Http Status 200):
 
     [
          {
@@ -291,12 +292,26 @@ Resposta:
 
  - Permitir adicionar uma nova Cidade
  
+ * Se não existir estado, microregion ou mesoregion, serão adicionadas, porém devem ser enviadas pelos parâmetros
+ 
+    - mesoregion_name: valor
+    - microregion_name: valor
+    - uf_name: valor
+ 
 * Teste feito pela ferramenta de testes Postman, formato de envio usado foi raw tipo application/json
 
 Example: http://localhost/api/city
 
-Resposta:
+Content-Type:
 
+    application/json
+
+Charset:
+    
+    UTF-8
+
+Raw:
+    
     {
         "id": null,
         "ibge_id": 1234567,
@@ -314,6 +329,39 @@ Resposta:
         "ufName": null,
         "microregionName": "microregion do parara name",
         "mesoregionName": "mesoregion do parara"
+    }
+
+Resposta (Http Status 200):
+
+    {
+        "status_code": 1,
+        "status": "success: city nº 1004 registered",
+        "result": {
+            "id": 1004,
+            "ibge_id": 1234567,
+            "uf": {
+                "id": 5,
+                "name": "PA"
+            },
+            "name": "parará",
+            "capital": false,
+            "lon": 0,
+            "lat": 0,
+            "noAccents": "parara",
+            "alternativeNames": "parararara",
+            "microregions": {
+                "id": 133,
+                "name": "microregion do parara name"
+            },
+            "mesoregions": {
+                "id": 43,
+                "name": "mesoregion do parara"
+            },
+            "createdAt": "1900-01-01T00:00:00.000+0000",
+            "ufName": null,
+            "microregionName": "microregion do parara name",
+            "mesoregionName": "mesoregion do parara"
+        }
     }
     
  ### DELETE /city/delete/ibge_id/[ibge_id]
@@ -341,97 +389,92 @@ Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api.
 ### GET /city/find/column/[column]/query/[query]
 
  - Permitir selecionar uma coluna (do CSV) e através dela entrar com uma string para filtrar. retornar assim todos os objetos que contenham tal string
+ 
+- Column [opções de colunas]: ibge_id, uf, name, lon, lat, no_accents, alternative_names, microregion e mesoregion
 
 Example: http://localhost/api/city/find/column/uf/query/sp
 
-
-Content-Type:
-
-    x-www-form-urlencoded
-
-Charset:
-    
-    UTF-8
-
-Param:
-    
-    key: albums_id
-    value: [1,2,3] 
-
 Resposta (200 - OK):
 
-    {
-        "status_code": 1,
-        "status": "success: order nº 2 registered",
-        "result": {
-            "total": 7.23,
-            "total_cashback": 2.17,
-            "ordersItems": [
-                {
-                    "id": 4,
-                    "order": {
-                        "id": 2,
-                        "user": {
-                            "id": 1,
-                            "name": "admin",
-                            "login": "admin",
-                            "created_at": 1549721442702,
-                            "hibernateLazyInitializer": {}
-                        },
-                        "created_at": 1549727996559
-                    },
-                    "album": {
-                        "id": 4,
-                        "spotify_id": "1X42b0NEC8OPNnPKcJJgIY",
-                        "name": "10 Anos Depois",
-                        "artist": {
-                            "id": 1,
-                            "spotify_id": "3SKTkAUNa3oUa2rkd8DAyM",
-                            "name": "MPB4"
-                        },
-                        "genre": {
-                            "id": 80,
-                            "name": "mpb"
-                        },
-                        "price": 7.23,
-                        "created_at": 1549645694118
-                    },
-                    "cashback_percent_log": 30,
-                    "cashback": 2.17,
-                    "cost": 7.23,
-                    "created_at": 1549727996586
-                }
-            ]
+    [
+        {
+            "id": 152,
+            "ibge_id": 1500107,
+            "uf": {
+                "id": 5,
+                "name": "PA"
+            },
+            "name": "Abaetetuba",
+            "capital": false,
+            "lon": -48.8844038207,
+            "lat": -1.7234698628,
+            "noAccents": "Abaetetuba",
+            "alternativeNames": "",
+            "microregions": {
+                "id": 31,
+                "name": "Camet"
+            },
+            "mesoregions": {
+                "id": 11,
+                "name": "Nordeste Paraense"
+            },
+            "createdAt": "2019-03-11T01:18:55.621+0000",
+            "ufName": null,
+            "microregionName": null,
+            "mesoregionName": null
+        },
+        {
+            "id": 153,
+            "ibge_id": 1500131,
+            "uf": {
+                "id": 5,
+                "name": "PA"
+            },
+            "name": "Abel Figueiredo",
+            "capital": false,
+            "lon": -48.3967621258,
+            "lat": -4.9513908955,
+            "noAccents": "Abel Figueiredo",
+            "alternativeNames": "",
+            "microregions": {
+                "id": 32,
+                "name": "Paragominas"
+            },
+            "mesoregions": {
+                "id": 12,
+                "name": "Sudeste Paraense"
+            },
+            "createdAt": "2019-03-11T01:18:55.650+0000",
+            "ufName": null,
+            "microregionName": null,
+            "mesoregionName": null
         }
-    }
+    ]    
+
+### DELETE /city/delete/id/[id]
+
+ - Permitir deletar uma cidade pelo id
  
-### DELETE /order/delete]/[id]
+ Example: http://localhost/api/city/delete/id/1
 
- - Excluir uma ordem de venda
-
-Exemplo: http://localhost/api/order/delete/[id]
-
-Resposta:
+Resposta (Status Code 200):
 
     {
         "status_code": 1,
-        "status": "success: order nº 1 removed",
+        "status": "success: city nº 1 removed",
         "result": null
     }
 
- 
-### DELETE /order/item/delete]/[id]
-
- - Excluir item de uma ordem de venda
-
-Exemplo: http://localhost/api/order/item/delete/[id]
-
-Resposta:
+Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api. Se status_code = 0 identifica que houve algum erro:
 
     {
-        "status_code": 1,
-        "status": "success: item nº 1 removed",
+        "status_code": 0,
+        "status": "empty city!",
         "result": null
     }
+   
 ## Comentário:
-*Espero ter atingido o objetivo no teste, fiz uma documentação mais completa para facilitar o entendimento, quaisquer dúvidas estou a disposição.*
+
+* As respostas de erro virão usando o status 404.
+
+* Espero ter atingido o objetivo no teste, fiz uma documentação mais completa para facilitar o entendimento, quaisquer dúvidas estou a disposição.*
