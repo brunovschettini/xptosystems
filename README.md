@@ -450,6 +450,29 @@ Resposta (200 - OK):
             "mesoregionName": null
         }
     ]    
+    
+### GET /city/stats/count/column/[column]
+
+- Retornar a quantidade de registro baseado em uma coluna. Não deve contar itens iguais 
+
+* Column [opções de colunas]: ibge_id, uf, name, no_accents, alternative_names, microregion e mesoregion
+
+Resposta (Status Code 200):
+
+    {
+        "column": "uf",
+        "total": 10
+    }
+    
+### GET /city/stats/total  
+
+- Retornar a quantidade de registros total
+
+Resposta (Status Code 200):
+
+{
+    "total": 1003
+}
 
 ### DELETE /city/delete/id/[id]
 
