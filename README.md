@@ -99,6 +99,7 @@ Param:
 Exemplo: http://localhost/api/city/find/capitals
 
 Resposta:
+
     [
         {
             "id": null,
