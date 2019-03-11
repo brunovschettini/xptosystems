@@ -3,6 +3,7 @@ Desafio das Cidades Sênior
 
 * [Considerações](#considerações)
 * [Desenvolvimento](#desenvolvimento)
+* [Relação dos UF Brasileiros](#relacaodosufbrasileiros)
 * [Pedidos & Respostas](#pedidos--respostas)
 * [Comentários](#comentarios)
 
@@ -34,6 +35,10 @@ A base de dados foi usada [H2](http://www.h2database.com) (banco de dados em mem
 O [Tomcat](https://tomcat.apache.org/download-80.cgi#8.5.37) (Versão 8.044) foi usado como o container da aplicação.
 
 Depois da primeira execução as entidades serão criadas no banco de dados e o arquivo cities.csv será exportado para o banco de dados.
+
+## Relações dos UF Brasileiros
+
+- [AC, AL, AM ,AP, BA, CE, DF, ES, GO, MA, MG, MS, MT, PA, PB, PE, PI, PR, RJ, RN, RO, RR, RS, SC, SE, SP, TO]
 
 ## Pedidos & Respostas
 
@@ -72,459 +77,272 @@ Resposta:
 
 Exemplo: http://localhost/api/city/upload
 
-Resposta:
-
-    [
-        {
-            "id": 1,
-            "name": "classic"
-        },
-        {
-            "id": 2,
-            "name": "acoustic"
-        },
-        {
-            "id": 3,
-            "name": "afrobeat"
-        },
-        {
-            "id": 4,
-            "name": "alt-rock"
-        }
-    ]
- 
-
-### GET /album/genre/[genre]/[offset]
-
- - Consultar o catálogo de discos de forma paginada, filtrando por gênero e ordenando de forma crescente pelo nome do disco
-
-Exemplo: http://localhost/api/album/genre/[genre]/[offset]
-
-Resposta:
-
-    [
-        {
-            "id": 1,
-            "spotify_id": "id do album no spotify",
-            "name": "Nome do album",
-            "artist": {
-                "id": null,
-                "spotify_id": "id do artista no spotify",
-                "name": "Nome do artista"
-            },
-            "genre": {
-                "id": null,
-                "name": "Nome do gênero"
-            },
-            "price": 0.00,
-            "created_at": now()
-        },
-        {
-            "id": 2,
-            "spotify_id": "id do album no spotify",
-            "name": "Nome do album",
-            "artist": {
-                "id": null,
-                "spotify_id": "id do artista no spotify",
-                "name": "Nome do artista"
-            },
-            "genre": {
-                "id": null,
-                "name": "Nome do gênero"
-            },
-            "price": 0.00,
-            "created_at": now()
-        }
-    ]
-
-
-### GET /album/id/[id]
-
- - Consultar o disco pelo seu identificador
-
-Exemplo: http://localhost/api/album/id/[id]
-
-Resposta:
-
-    {
-        "id": null,
-        "spotify_id": "id do album no spotify",
-        "name": "Nome do album",
-        "artist": {
-            "id": null,
-            "spotify_id": "id do artista no spotify",
-            "name": "Nome do artista"
-        },
-        "genre": {
-            "id": null,
-            "name": "Nome do gênero"
-        },
-        "price": 0.00,
-        "created_at": now()
-    } 
-
-### GET /album/spotify_id/[spotify_id]
-
- - Consultar o disco pelo identificador do spotify
-
-Exemplo: http://localhost/api/album/id/[id]
-
-Resposta:
-
-    {
-        "id": null,
-        "spotify_id": "id do album no spotify",
-        "name": "Nome do album",
-        "artist": {
-            "id": null,
-            "spotify_id": "id do artista no spotify",
-            "name": "Nome do artista"
-        },
-        "genre": {
-            "id": null,
-            "name": "Nome do gênero"
-        },
-        "price": 0.00,
-        "created_at": now()
-    } 
-
-### GET /order/find/
-
- - Consultar todas as vendas efetuadas
-
-Exemplo: http://localhost/api/order/find/
-
-Resposta:
-
-    {
-        "status_code": 1,
-        "status": "info: list orders by range date",
-        "result": {
-            "total": 0,
-            "total_cashback": 0,
-            "ordersItems": []
-        }
-    }
-
-Com resultados
-
-Resposta:
-
-    {
-        "status_code": 1,
-        "status": "info: list orders by range date",
-        "result": {
-            "total": 85.15,
-            "total_cashback": 25.54,
-            "ordersItems": [
-                {
-                    "id": 3,
-                    "order": {
-                        "id": 1,
-                        "user": {
-                            "id": 1,
-                            "name": "admin",
-                            "login": "admin",
-                            "created_at": 1549721442702
-                        },
-                        "created_at": 1549677600000
-                    },
-                    "album": {
-                        "id": 3,
-                        "spotify_id": "3wvoawKuMJw5ROGw92BS4X",
-                        "name": "Grandes mestres da MPB",
-                        "artist": {
-                            "id": 3,
-                            "spotify_id": "5JYtpnUKxAzXfHEYpOeeit",
-                            "name": "Jorge Ben Jor"
-                        },
-                        "genre": {
-                            "id": 80,
-                            "name": "mpb"
-                        },
-                        "price": 85.15,
-                        "created_at": 1549721443468
-                    },
-                    "cashback_percent_log": 30,
-                    "cashback": 25.54,
-                    "cost": 85.15,
-                    "created_at": 1549677600000
-                }
-        }
-    }
-
-### GET /order/find/[query]
-
- - Consultar todas as vendas efetuadas de forma paginada, filtrando pelo range de datas (inicial e final) da venda e ordenando de forma decrescente pela data da venda;
-
-Example: http://localhost/api/order/find/{"start_date":"01-01-1900","end_date":"01-01-1900"}
-
-| PARAMETER   | TYPE      | FORMAT      |
-| ----------- | --------- | ----------- |
-| start_date  | String    | 01-01-1900  |
-| end_date    | String    | 01-01-1900  |
-
-Resposta:
-
-    {
-        "status_code": 1,
-        "status": "info: list orders by range date",
-        "result": {
-            "total": 85.15,
-            "total_cashback": 25.54,
-            "ordersItems": [
-                {
-                    "id": 3,
-                    "order": {
-                        "id": 1,
-                        "user": {
-                            "id": 1,
-                            "name": "admin",
-                            "login": "admin",
-                            "created_at": 1549721442702
-                        },
-                        "created_at": 1549677600000
-                    },
-                    "album": {
-                        "id": 3,
-                        "spotify_id": "3wvoawKuMJw5ROGw92BS4X",
-                        "name": "Grandes mestres da MPB",
-                        "artist": {
-                            "id": 3,
-                            "spotify_id": "5JYtpnUKxAzXfHEYpOeeit",
-                            "name": "Jorge Ben Jor"
-                        },
-                        "genre": {
-                            "id": 80,
-                            "name": "mpb"
-                        },
-                        "price": 85.15,
-                        "created_at": 1549721443468
-                    },
-                    "cashback_percent_log": 30,
-                    "cashback": 25.54,
-                    "cost": 85.15,
-                    "created_at": 1549677600000
-                }
-            ]
-        }
-    }
- 
-
-### GET /order/id/[id]
-
- - Consultar uma venda pelo seu identificador
-
-Example: http://localhost/api/order/id/[id]
-
-Resposta:
-
-    {
-        "status_code": 1,
-        "status": "info: order nº 1",
-        "result": {
-            "total": 234.31,
-            "total_cashback": 70.28,
-            "ordersItems": [
-                {
-                    "id": 1,
-                    "order": {
-                        "id": 1,
-                        "user": {
-                            "id": 1,
-                            "name": "admin",
-                            "login": "admin",
-                            "created_at": 1549721442702
-                        },
-                        "created_at": 1549677600000
-                    },
-                    "album": {
-                        "id": 1,
-                        "spotify_id": "4gjq4aTa0Y4rbxCG5J4bSy",
-                        "name": "O Sonho, a Vida, a Roda Viva! 50 Anos (Ao Vivo)",
-                        "artist": {
-                            "id": 1,
-                            "spotify_id": "3SKTkAUNa3oUa2rkd8DAyM",
-                            "name": "MPB4"
-                        },
-                        "genre": {
-                            "id": 80,
-                            "name": "mpb"
-                        },
-                        "price": 67.61,
-                        "created_at": 1549721443376
-                    },
-                    "cashback_percent_log": 30,
-                    "cashback": 20.28,
-                    "cost": 67.61,
-                    "created_at": 1549677600000
-                },
-                {
-                    "id": 2,
-                    "order": {
-                        "id": 1,
-                        "user": {
-                            "id": 1,
-                            "name": "admin",
-                            "login": "admin",
-                            "created_at": 1549721442702
-                        },
-                        "created_at": 1549677600000
-                    },
-                    "album": {
-                        "id": 2,
-                        "spotify_id": "26Vd2zx3iCZVRHoCalDqXF",
-                        "name": "The Best of Brazilian MPB",
-                        "artist": {
-                            "id": 2,
-                            "spotify_id": "0LyfQWJT6nXafLPZqxe9Of",
-                            "name": "Various Artists"
-                        },
-                        "genre": {
-                            "id": 80,
-                            "name": "mpb"
-                        },
-                        "price": 81.55,
-                        "created_at": 1549721443460
-                    },
-                    "cashback_percent_log": 30,
-                    "cashback": 24.46,
-                    "cost": 81.55,
-                    "created_at": 1549677600000
-                },
-                {
-                    "id": 3,
-                    "order": {
-                        "id": 1,
-                        "user": {
-                            "id": 1,
-                            "name": "admin",
-                            "login": "admin",
-                            "created_at": 1549721442702
-                        },
-                        "created_at": 1549677600000
-                    },
-                    "album": {
-                        "id": 3,
-                        "spotify_id": "3wvoawKuMJw5ROGw92BS4X",
-                        "name": "Grandes mestres da MPB",
-                        "artist": {
-                            "id": 3,
-                            "spotify_id": "5JYtpnUKxAzXfHEYpOeeit",
-                            "name": "Jorge Ben Jor"
-                        },
-                        "genre": {
-                            "id": 80,
-                            "name": "mpb"
-                        },
-                        "price": 85.15,
-                        "created_at": 1549721443468
-                    },
-                    "cashback_percent_log": 30,
-                    "cashback": 25.54,
-                    "cost": 85.15,
-                    "created_at": 1549677600000
-                }
-            ]
-        }
-    }
- 
-### POST /order/add
-
- - Registrar uma nova venda de discos calculando o valor total de cashback considerando a tabela, para meus testes usei o POSTMAN
+Teste via Postman: 
 
 Content-Type:
 
-    application/json
+    form-data
 
 Charset:
     
     UTF-8
 
-POST (raw format JSON):
+Param:
+    
+    key: csv (type file)
+    value: select file (procurar o local do arquivo)
 
+### GET /city/find/capitals
+
+ - Retornar somente as cidades que são capitais ordenadas por nome
+
+Exemplo: http://localhost/api/city/find/capitals
+
+Resposta:
     [
         {
-            "id": 4,
-            "spotify_id": "1X42b0NEC8OPNnPKcJJgIY",
-            "name": "10 Anos Depois",
-            "artist": {
-                "id": 1,
-                "spotify_id": "3SKTkAUNa3oUa2rkd8DAyM",
-                "name": "MPB4"
+            "id": null,
+            "ibge_id": null,
+            "uf": {
+                "id": null,
+                "name": "UF"
             },
-            "genre": {
-                "id": 80,
-                "name": "mpb"
+            "name": "city name",
+            "capital": true,
+            "lon": 0,
+            "lat": 0,
+            "noAccents": "city name no accents",
+            "alternativeNames": '''',
+            "microregions": {
+                "id": null,
+                "name": ''microregion name''
             },
-            "price": 7.23,
-            "created_at": 1549645694118
+            "mesoregions": {
+                "id": null,
+                "name": "mesoregion name"
+            },
+            "createdAt": "1900-01-01T00:00:00.000+0000",
+            "ufName": null,
+            "microregionName": null,
+            "mesoregionName": null
+        },
+        {
+            "id": null,
+            "ibge_id": null,
+            "uf": {
+                "id": null,
+                "name": "UF"
+            },
+            "name": "city name 2",
+            "capital": true,
+            "lon": 0,
+            "lat": 0,
+            "noAccents": "city name 2 no accents",
+            "alternativeNames": '''',
+            "microregions": {
+                "id": null,
+                "name": ''microregion name''
+            },
+            "mesoregions": {
+                "id": null,
+                "name": "mesoregion name"
+            },
+            "createdAt": "1900-01-01T00:00:00.000+0000",
+            "ufName": null,
+            "microregionName": null,
+            "mesoregionName": null
         }
     ]
 
-Resposta (Com erro) e o apresenta a exceção gerada pela api. Se status_code = 0 identifica que houve algum erro:
+
+### GET /city/stats/min_max_uf
+
+ - Retornar o nome do estado com a maior e menor quantidade de cidades e a quantidade de cidades
+
+Exemplo: http://localhost/api//city/stats/min_max_uf
+
+Resposta:
+    [
+        [
+            "bigger",
+            "RR",
+            15
+        ],
+        [
+            "smaller",
+            "PI",
+            224
+        ]
+    ] 
+
+### GET /city/stats/count/cities/uf/[uf]
+
+ - Retornar a quantidade de cidades por estado; 
+
+Exemplo: http://localhost/api/city/stats/count/cities/uf/ac
+
+Resposta:
 
     {
-        "status_code": 0,
-        "status": "e->org.hibernate.exception.ConstraintViolationException: could not execute statement",
-        "result": null
-    }
+        "uf": "AC",
+        "total": 22
+    } 
 
-Resposta (200 - OK):
+### GET /city/find/ibge_id/[ibge_id]
+
+ - Obter os dados da cidade informando o id do IBGE
+
+Exemplo: http://localhost/api/city/find/ibge_id/1234567
+
+Resposta:
+
+    {
+        "id": null,
+        "ibge_id": null,
+        "uf": {
+            "id": null,
+            "name": "UF"
+        },
+        "name": "city name 2",
+        "capital": true,
+        "lon": 0,
+        "lat": 0,
+        "noAccents": "city name 2 no accents",
+        "alternativeNames": '''',
+        "microregions": {
+            "id": null,
+            "name": ''microregion name''
+        },
+        "mesoregions": {
+            "id": null,
+            "name": "mesoregion name"
+        },
+        "createdAt": "1900-01-01T00:00:00.000+0000",
+        "ufName": null,
+        "microregionName": null,
+        "mesoregionName": null
+    }
+    
+### GET /city/find/uf/[uf]
+
+ - Retornar o nome das cidades baseado em um estado selecionado
+
+Example: http://localhost/api/city/find/uf/sp
+
+Resposta:
+
+    [
+         {
+            "id": null,
+            "ibge_id": null,
+            "uf": {
+                "id": null,
+                "name": "UF"
+            },
+            "name": "city name 2",
+            "capital": true,
+            "lon": 0,
+            "lat": 0,
+            "noAccents": "city name 2 no accents",
+            "alternativeNames": '''',
+            "microregions": {
+                "id": null,
+                "name": ''microregion name''
+            },
+            "mesoregions": {
+                "id": null,
+                "name": "mesoregion name"
+            },
+            "createdAt": "1900-01-01T00:00:00.000+0000",
+            "ufName": null,
+            "microregionName": null,
+            "mesoregionName": null
+        },
+        {
+            "id": null,
+            "ibge_id": null,
+            "uf": {
+                "id": null,
+                "name": "UF"
+            },
+            "name": "city name 2",
+            "capital": true,
+            "lon": 0,
+            "lat": 0,
+            "noAccents": "city name 2 no accents",
+            "alternativeNames": '''',
+            "microregions": {
+                "id": null,
+                "name": ''microregion name''
+            },
+            "mesoregions": {
+                "id": null,
+                "name": "mesoregion name"
+            },
+            "createdAt": "1900-01-01T00:00:00.000+0000",
+            "ufName": null,
+            "microregionName": null,
+            "mesoregionName": null
+        }
+    ]    
+
+### POST /city
+
+ - Permitir adicionar uma nova Cidade
+ 
+* Teste feito pela ferramenta de testes Postman, formato de envio usado foi raw tipo application/json
+
+Example: http://localhost/api/city
+
+Resposta:
+
+    {
+        "id": null,
+        "ibge_id": 1234567,
+        "uf": {
+            "id": 5,
+            "name": "PA"
+        },
+        "name": "parará",
+        "capital": false,
+        "lon": 0,
+        "lat": 0,
+        "noAccents": "parara",
+        "alternativeNames": "parararara",
+        "createdAt": "1900-01-01T00:00:00.000+0000",
+        "ufName": null,
+        "microregionName": "microregion do parara name",
+        "mesoregionName": "mesoregion do parara"
+    }
+    
+ ### DELETE /city/delete/ibge_id/[ibge_id]
+
+ - Permitir deletar uma cidade
+ 
+ Example: http://localhost/api/city/delete/ibge_id/1234567
+
+Resposta (Status Code 200):
 
     {
         "status_code": 1,
-        "status": "success: order nº 2 registered",
-        "result": {
-            "total": 7.23,
-            "total_cashback": 2.17,
-            "ordersItems": [
-                {
-                    "id": 4,
-                    "order": {
-                        "id": 2,
-                        "user": {
-                            "id": 1,
-                            "name": "admin",
-                            "login": "admin",
-                            "created_at": 1549721442702,
-                            "hibernateLazyInitializer": {}
-                        },
-                        "created_at": 1549727996559
-                    },
-                    "album": {
-                        "id": 4,
-                        "spotify_id": "1X42b0NEC8OPNnPKcJJgIY",
-                        "name": "10 Anos Depois",
-                        "artist": {
-                            "id": 1,
-                            "spotify_id": "3SKTkAUNa3oUa2rkd8DAyM",
-                            "name": "MPB4"
-                        },
-                        "genre": {
-                            "id": 80,
-                            "name": "mpb"
-                        },
-                        "price": 7.23,
-                        "created_at": 1549645694118
-                    },
-                    "cashback_percent_log": 30,
-                    "cashback": 2.17,
-                    "cost": 7.23,
-                    "created_at": 1549727996586
-                }
-            ]
-        }
+        "status": "success: city nº 1234567 removed",
+        "result": null
     }
 
-### POST /order/add2
+Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api. Se status_code = 0 identifica que houve algum erro:
 
- -  Cria uma order de venda com items de albums, esse formato usa um post simples enviado de um exemplo:
+    {
+        "status_code": 0,
+        "status": "empty city!",
+        "result": null
+    }
 
-    < form method = " POST " action = " /order/add2 " >
-        < input name = " albums " value = " [1, 2, 3] ">
-        < input type = " submit " >
-    < / form >
+### GET /city/find/column/[column]/query/[query]
+
+ - Permitir selecionar uma coluna (do CSV) e através dela entrar com uma string para filtrar. retornar assim todos os objetos que contenham tal string
+
+Example: http://localhost/api/city/find/column/uf/query/sp
+
 
 Content-Type:
 
