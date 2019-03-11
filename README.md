@@ -61,7 +61,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
 ### Extras
 
   - [PUT /city](#put-city)
-  - [GET /city/find/[id]](#get-cityfindidid)
+  - [GET /city/[id]](#get-cityid)
 
 ### GET /status
 
@@ -364,11 +364,11 @@ Resposta (Http Status 200):
         }
     }
     
- ### DELETE /city/delete/ibge_id/[ibge_id]
+ ### DELETE /city/[ibge_id]
 
  - Permitir deletar uma cidade
  
- Example: http://localhost/api/city/delete/ibge_id/1234567
+ Example: http://localhost/api/city/1234567
 
 Resposta (Status Code 200):
 
@@ -381,9 +381,9 @@ Resposta (Status Code 200):
 Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api. Se status_code = 0 identifica que houve algum erro:
 
     {
-        "status_code": 0,
-        "status": "empty city!",
-        "result": null
+        "status": 404,
+        "message": "empty city!",
+        "timestamp": "2019-03-11T15:30:58.316+0000"
     }
 
 ### GET /city/find/column/[column]/query/[query]
@@ -461,7 +461,7 @@ Resposta (Status Code 200):
 
     {
         "column": "uf",
-        "total": 10
+        "total": 0
     }
     
 ### GET /city/stats/total  
@@ -487,11 +487,11 @@ Resposta (Status Code 200):
         "distance": 0
     }
 
-### GET /city/find/id/[id]
+### GET /city/[id]
 
  - Obter os dados da cidade informando o id cadastrado na base de dados
 
-Exemplo: http://localhost/api/city/find/id/1
+Exemplo: http://localhost/api/city/1
 
 Resposta (Http Status 200):
 
