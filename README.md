@@ -52,7 +52,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
   - [GET /city/find/ibge_id/[ibge_id]](#get-cityfindibge_idibge_id)
   - [GET /city/find/uf/[uf]](#get-cityfindufuf)
   - [POST /city](#post-city)
-  - [DELETE /city/delete/ibge_id/[ibge_id]](#delete-citydeleteibge_idibge_id)  
+  - [DELETE /city/[ibge_id]](#delete-cityibge_id)  
   - [GET /city/find/column/[column]/query/[query]](#get-cityfindcolumncolumnqueryquery)
   - [GET /city/stats/count/column/[column]](#get-citystatscountcolumncolumn)  
   - [GET /city/stats/total](#get-citystatstotal)
@@ -60,7 +60,6 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
 
 ### Extras
 
-  - [GET /city/find/id/[id]](#get-findidid)
   - [PUT /city](#put-city)
   - [DELETE /city/[id]](#delete-cityid)
 
