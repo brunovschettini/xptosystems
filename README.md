@@ -61,7 +61,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
 ### Extras
 
   - [PUT /city](#put-city)
-  - [GET /city/find/[id]](#get-cityfindid)
+  - [GET /city/find/[id]](#get-cityfindidid)
 
 ### GET /status
 
