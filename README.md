@@ -56,6 +56,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
   - [GET /city/find/column/[column]/query/[query]](#get-cityfindcolumncolumnqueryquery)
   - [GET /city/stats/count/column/[column]](#get-citystatscountcolumncolumn)  
   - [GET /city/stats/total](#get-citystatstotal)
+  - [GET /city/stats/max_distance](#get-max_distance)
 
 ### Extras
 
@@ -113,10 +114,10 @@ Resposta (Http Status 200):
             "lon": 0,
             "lat": 0,
             "noAccents": "city name no accents",
-            "alternativeNames": '''',
+            "alternativeNames": "",
             "microregions": {
                 "id": null,
-                "name": ''microregion name''
+                "name": "microregion name"
             },
             "mesoregions": {
                 "id": null,
@@ -139,10 +140,10 @@ Resposta (Http Status 200):
             "lon": 0,
             "lat": 0,
             "noAccents": "city name 2 no accents",
-            "alternativeNames": '''',
+            "alternativeNames": "",
             "microregions": {
                 "id": null,
-                "name": ''microregion name''
+                "name": "microregion name"
             },
             "mesoregions": {
                 "id": null,
@@ -210,10 +211,10 @@ Resposta (Http Status 200):
         "lon": 0,
         "lat": 0,
         "noAccents": "city name 2 no accents",
-        "alternativeNames": '''',
+        "alternativeNames": "",
         "microregions": {
             "id": null,
-            "name": ''microregion name''
+            "name": "microregion name"
         },
         "mesoregions": {
             "id": null,
@@ -246,10 +247,10 @@ Resposta (Http Status 200):
             "lon": 0,
             "lat": 0,
             "noAccents": "city name 2 no accents",
-            "alternativeNames": '''',
+            "alternativeNames": "",
             "microregions": {
                 "id": null,
-                "name": ''microregion name''
+                "name": "microregion name"
             },
             "mesoregions": {
                 "id": null,
@@ -272,10 +273,10 @@ Resposta (Http Status 200):
             "lon": 0,
             "lat": 0,
             "noAccents": "city name 2 no accents",
-            "alternativeNames": '''',
+            "alternativeNames": "",
             "microregions": {
                 "id": null,
-                "name": ''microregion name''
+                "name": "microregion name"
             },
             "mesoregions": {
                 "id": null,
@@ -473,6 +474,55 @@ Resposta (Status Code 200):
     {
         "total": 1003
     }
+
+### GET /city/max_discance
+
+- Dentre todas as cidades, obter as duas cidades mais distantes uma da outra com base na localização (distância em KM em linha reta)
+
+Example: http://localhost/api/city/max_discance
+
+Resposta (Status Code 200): 
+
+    {
+        "cities": "A x B",
+        "distance": 0
+    }
+
+### GET /city/find/id/[id]
+
+ - Obter os dados da cidade informando o id cadastrado na base de dados
+
+Exemplo: http://localhost/api/city/find/id/1
+
+Resposta (Http Status 200):
+
+    {
+        "id": 1,
+        "ibge_id": 1234567,
+        "uf": {
+            "id": 1,
+            "name": "UF"
+        },
+        "name": "city name 2",
+        "capital": true,
+        "lon": 0,
+        "lat": 0,
+        "noAccents": "city name 2 no accents",
+        "alternativeNames": "",
+        "microregions": {
+            "id": 1,
+            "name": "microregion name"
+        },
+        "mesoregions": {
+            "id": 1,
+            "name": "mesoregion name"
+        },
+        "createdAt": "1900-01-01T00:00:00.000+0000",
+        "ufName": 1,
+        "microregionName": null,
+        "mesoregionName": null
+    }
+
 
 ### DELETE /city/delete/id/[id]
 
