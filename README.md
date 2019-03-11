@@ -61,7 +61,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
 ### Extras
 
   - [PUT /city](#put-city)
-  - [DELETE /city/[id]](#delete-cityid)
+  - [GET /city/find/[id]](#get-cityfindid)
 
 ### GET /status
 
@@ -520,29 +520,6 @@ Resposta (Http Status 200):
         "ufName": 1,
         "microregionName": null,
         "mesoregionName": null
-    }
-
-
-### DELETE /city/delete/id/[id]
-
- - Permitir deletar uma cidade pelo id
- 
-Example: http://localhost/api/city/delete/id/1
-
-Resposta (Status Code 200):
-
-    {
-        "status_code": 1,
-        "status": "success: city nº 1 removed",
-        "result": null
-    }
-
-Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api. Se status_code = 0 identifica que houve algum erro:
-
-    {
-        "status_code": 0,
-        "status": "empty city!",
-        "result": null
     }
    
 ## Comentário:
