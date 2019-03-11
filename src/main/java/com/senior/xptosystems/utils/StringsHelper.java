@@ -3,7 +3,7 @@ package com.senior.xptosystems.utils;
 
 import java.text.Normalizer;
 
-public class StringHelper {
+public class StringsHelper {
 
     public static String unaccent(String src) {
         return Normalizer

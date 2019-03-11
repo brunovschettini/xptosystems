@@ -1,0 +1,3 @@
+settings:
+    limit: 500
+    resource: src/main/resources

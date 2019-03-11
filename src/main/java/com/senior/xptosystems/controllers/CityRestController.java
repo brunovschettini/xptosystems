@@ -1,6 +1,7 @@
 package com.senior.xptosystems.controllers;
 
-import com.senior.xptosystems.utils.StringHelper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.senior.xptosystems.utils.StringsHelper;
 import com.senior.xptosystems.dao.CityDao;
 import com.senior.xptosystems.model.City;
 import com.senior.xptosystems.model.Mesoregion;
@@ -14,7 +15,9 @@ import com.senior.xptosystems.services.ICityComponent;
 import com.senior.xptosystems.utils.Result;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +54,7 @@ public class CityRestController {
         if (csv.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        List<City> cities = new ArrayList();
-        cities = cityComponent.uploadCSV(csv, true);
+        List<City> cities = cityComponent.uploadCSV(csv, true);
         if (!cities.isEmpty()) {
             cityComponent.storeAll(cities);
             return new ResponseEntity<>(cities, HttpStatus.OK);
@@ -69,90 +71,69 @@ public class CityRestController {
     @RequestMapping(method = RequestMethod.GET, value = "/stats/min_max_uf", produces = "application/json")
     public ResponseEntity<?> statsUfMinMax() throws IOException {
         List<Object[]> rows = cityRepository.findMinMaxCitiesByUf();
-        if (!rows.isEmpty()) {
-            String test = rows.get(0)[0].toString();
-            String result = "{\"uf_bigger_cities\": " + rows.get(0)[0].toString() + "  ,\"uf_smaller_cities\":" + rows.get(0)[1].toString() + " }";
-            return new ResponseEntity<>(rows, HttpStatus.OK);
+        if (rows.isEmpty()) {
+            return new ResponseEntity<>(rows, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(rows, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/stats/total", produces = "application/json")
     public ResponseEntity<?> total() {
         Integer total = cityRepository.total();
-        if (total == 0) {
-            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
-        }
-        String result = "{\"total\": " + total + "}";
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        Map<Object, Object> response = new LinkedHashMap();
+        response.put("total", total);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/stats/count/column/{column}", produces = "application/json")
     public ResponseEntity<?> statsCountByColumnFilter(@PathVariable("column") String column) {
-        if (column == null || column.isEmpty()) {
-            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
-        }
+        Map<Object, Object> response = new LinkedHashMap();
         Integer total = new CityDao().count(column);
-        String result = "{\"column\":\"" + column + "\", \"total\": " + total + "}";
-        // return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        response.put("column", column);
+        response.put("total", total);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/find/column/{column}/query/{query}", produces = "application/json")
     public ResponseEntity<?> findByColumn(@PathVariable("column") String column, @PathVariable("query") String query) {
-        if (column == null || column.isEmpty()) {
-            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
-        }
         List<City> cities = new CityDao().find(column, query);
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/find/uf/{uf}", produces = "application/json")
     public ResponseEntity<?> findByColumn(@PathVariable("uf") String uf) {
-        if (uf == null || uf.isEmpty()) {
-            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
-        }
         Uf ufAux = ufRepository.findByNameIgnoreCase(uf);
         if (ufAux == null) {
-            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("uf not found!", HttpStatus.BAD_REQUEST);
         }
-
         List<City> cities = cityRepository.findByUf_id(ufAux.getId());
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/stats/count/cities/uf/{uf}", produces = "application/json")
     public ResponseEntity<?> statsCountCitiesByUf(@PathVariable("uf") String uf_name) throws IOException {
-        if (uf_name == null || uf_name.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         Uf uf = ufRepository.findByNameIgnoreCase(uf_name);
         if (uf == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("uf not found!", HttpStatus.BAD_REQUEST);
         }
-//        JSONArray array = new JSONArray();
         Integer count = cityRepository.findCountByUf(uf.getId());
-        String json = "{\"uf\":\"" + uf.getName() + "\", \"total\": " + count + "}";
-        return new ResponseEntity<>(json, HttpStatus.OK);
+        Map<Object, Object> response = new LinkedHashMap();
+        response.put("uf", uf.getName());
+        response.put("total", count);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/find/ibge_id/{ibge_id}", produces = "application/json")
     public ResponseEntity<?> findByIbgeId(@PathVariable("ibge_id") Long ibge_id) {
-        if (ibge_id == null) {
+        City city = cityRepository.findByIbge_id(ibge_id);
+        if (city == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        City city = cityRepository.findByIbge_id(ibge_id);
-        if (city != null) {
-            return new ResponseEntity<>(city, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/find/id/{id}", produces = "application/json")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-        if (id == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         City city = cityRepository.getOne(id);
         if (city == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -163,33 +144,22 @@ public class CityRestController {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> store(@RequestBody City city) {
-        Result result = new Result();
         if (city.getId() != null) {
-            result.setStatus_code(0);
-            result.setStatus("exists city! use PUT to update!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("exists city! use PUT to update!", HttpStatus.BAD_REQUEST);
         }
         if (city.getName().isEmpty()) {
-            result.setStatus_code(0);
-            result.setStatus("empty name!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("empty name!", HttpStatus.BAD_REQUEST);
         }
         if (city.getIbge_id() == null || city.getIbge_id() == 0) {
-            result.setStatus_code(0);
-            result.setStatus("empty ibge id!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("empty ibge id!", HttpStatus.BAD_REQUEST);
         }
         City c = cityRepository.findByIbge_id(city.getIbge_id());
         if (c != null) {
-            result.setStatus_code(0);
-            result.setStatus("exists ibge_id city!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("exists ibge_id city!", HttpStatus.BAD_REQUEST);
         }
         if (city.getUf() == null || city.getUf().getId() == null) {
             if ((city.getUfName() == null || city.getUfName().isEmpty())) {
-                result.setStatus_code(0);
-                result.setStatus("empty uf!");
-                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("empty uf!", HttpStatus.BAD_REQUEST);
             }
             Uf uf = ufRepository.findByNameIgnoreCase(city.getUfName());
             if (uf == null) {
@@ -201,9 +171,7 @@ public class CityRestController {
         }
         if (city.getMesoregions() == null || city.getMesoregions().getId() == null) {
             if (city.getMesoregionName() == null || city.getMesoregionName().isEmpty()) {
-                result.setStatus_code(0);
-                result.setStatus("empty mesoregion aux!");
-                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("empty mesoregion aux!", HttpStatus.BAD_REQUEST);
             }
             Mesoregion mesoregion = mesoregionRepository.findByNameIgnoreCase(city.getMesoregionName());
             if (mesoregion == null) {
@@ -215,9 +183,7 @@ public class CityRestController {
         }
         if (city.getMicroregions() == null || city.getMicroregions().getId() == null) {
             if (city.getMicroregionName() == null || city.getMicroregionName().isEmpty()) {
-                result.setStatus_code(0);
-                result.setStatus("empty microregion name!");
-                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("empty microregion name!", HttpStatus.BAD_REQUEST);
             }
             Microregion microregion = microregionRepository.findByNameIgnoreCase(city.getMicroregionName());
             if (microregion == null) {
@@ -227,43 +193,31 @@ public class CityRestController {
             }
             city.setMicroregions(microregion);
         }
-        city.setNoAccents(StringHelper.unaccent(city.getName()));
+        city.setNoAccents(StringsHelper.unaccent(city.getName()));
         try {
             cityRepository.save(city);
         } catch (Exception e) {
-            result.setStatus_code(0);
-            result.setStatus("city e->" + e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        result.setStatus("success: city nº " + city.getId() + " registered");
-        result.setResult(city);
         return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<?> update(@RequestBody City city) {
-        Result result = new Result();
+
         if (city.getId() == null) {
-            result.setStatus_code(0);
-            result.setStatus("new register! use POST to store/save!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("new register! use POST to store/save!", HttpStatus.BAD_REQUEST);
         }
         if (city.getName().isEmpty()) {
-            result.setStatus_code(0);
-            result.setStatus("empty name!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("empty name!", HttpStatus.BAD_REQUEST);
         }
         if (city.getUfName().isEmpty()) {
-            result.setStatus_code(0);
-            result.setStatus("empty uf!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("empty uf!", HttpStatus.BAD_REQUEST);
         }
         if (city.getUf() == null || city.getUf().getId() == null) {
             if ((city.getUfName() == null || city.getUfName().isEmpty())) {
-                result.setStatus_code(0);
-                result.setStatus("empty uf!");
-                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("empty uf!", HttpStatus.BAD_REQUEST);
             }
             Uf uf = ufRepository.findByNameIgnoreCase(city.getUfName());
             if (uf == null) {
@@ -275,9 +229,7 @@ public class CityRestController {
         }
         if (city.getMesoregions() == null || city.getMesoregions().getId() == null) {
             if (city.getMesoregionName() == null || city.getMesoregionName().isEmpty()) {
-                result.setStatus_code(0);
-                result.setStatus("empty mesoregion aux!");
-                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("empty mesoregion aux!", HttpStatus.BAD_REQUEST);
             }
             Mesoregion mesoregion = mesoregionRepository.findByNameIgnoreCase(city.getMesoregionName());
             if (mesoregion == null) {
@@ -289,9 +241,7 @@ public class CityRestController {
         }
         if (city.getMicroregions() == null || city.getMicroregions().getId() == null) {
             if (city.getMicroregionName() == null || city.getMicroregionName().isEmpty()) {
-                result.setStatus_code(0);
-                result.setStatus("empty microregion name!");
-                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("empty microregion name!", HttpStatus.BAD_REQUEST);
             }
             Microregion microregion = microregionRepository.findByNameIgnoreCase(city.getMicroregionName());
             if (microregion == null) {
@@ -301,42 +251,26 @@ public class CityRestController {
             }
             city.setMicroregions(microregion);
         }
-        city.setNoAccents(StringHelper.unaccent(city.getName()));
+        city.setNoAccents(StringsHelper.unaccent(city.getName()));
         try {
             cityRepository.save(city);
         } catch (Exception e) {
-            result.setStatus_code(0);
-            result.setStatus("city e->" + e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        result.setStatus("success: city nº " + city.getId() + " registered");
-        result.setResult(city);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{ibge_id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteByIbgeId(@PathVariable("ibge_id") Long ibge_id) {
-        Result result = new Result();
-        if (ibge_id == null) {
-            result.setStatus_code(0);
-            result.setStatus("empty ibge_id id!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-        }
         City city = cityRepository.findByIbge_id(ibge_id);
         if (city == null || city.getId() == null) {
-            result.setStatus_code(0);
-            result.setStatus("empty city!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("empty city!", HttpStatus.BAD_REQUEST);
         }
         try {
             cityRepository.delete(city);
-            // em.flush();
         } catch (Exception e) {
-            result.setStatus_code(0);
-            result.setStatus("city e->" + e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        result.setStatus("success: city nº " + city.getIbge_id() + " removed");
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

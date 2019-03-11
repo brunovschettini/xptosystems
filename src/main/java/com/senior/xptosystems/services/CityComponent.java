@@ -2,7 +2,7 @@ package com.senior.xptosystems.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
-import com.senior.xptosystems.config.Resources;
+import com.senior.xptosystems.config.Settings;
 import com.senior.xptosystems.model.City;
 import com.senior.xptosystems.model.Mesoregion;
 import com.senior.xptosystems.model.Microregion;
@@ -31,11 +31,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
-@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 public class CityComponent implements ICityComponent {
 
     @Autowired
     CityRepository cityRepository;
+
+    @Autowired
+    Settings settings;
 
     @Autowired
     UfRepository ufRepository;
@@ -54,7 +56,7 @@ public class CityComponent implements ICityComponent {
     @Override
     public List<City> readCSV() {
         List<City> cities = new ArrayList();
-        File csvFile = new File(Resources.INSTANCE + "/" + "files" + "/" + "cities.csv");
+        File csvFile = new File(settings.getResource() + "/" + "files" + "/" + "cities.csv");
         if (!csvFile.exists()) {
             new Throwable("empty csv file");
         }
@@ -70,7 +72,7 @@ public class CityComponent implements ICityComponent {
                 City c = new City(Long.parseLong(nextLine[0]), nextLine[1], nextLine[2], Boolean.parseBoolean(nextLine[3]), Double.parseDouble(nextLine[4]), Double.parseDouble(nextLine[5]), nextLine[6], nextLine[7], nextLine[8], nextLine[9]);
                 cities.add(c);
                 i++;
-                if(i == 1000) {
+                if(i == settings.getLimit()) {
                     break;
                 }
             }
@@ -94,7 +96,7 @@ public class CityComponent implements ICityComponent {
     @Override
     public List<City> uploadCSV(MultipartFile csv, Boolean replace) {
         List<City> cities = new ArrayList();
-        File pathFiles = new File(Resources.INSTANCE + "/" + "files" + "/");
+        File pathFiles = new File(settings.getResource() + "/" + "files" + "/");
         String target = pathFiles + "/cities.csv";
         if (!pathFiles.exists()) {
             pathFiles.mkdirs();
@@ -128,6 +130,7 @@ public class CityComponent implements ICityComponent {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public List<City> storeAll(List<City> cities) {
         if (cities == null || cities.isEmpty()) {
             return new ArrayList();
@@ -168,8 +171,8 @@ public class CityComponent implements ICityComponent {
                 }
             }
             cityRepository.save(c);
-            int per =  ((count * 100) / cities.size());
-            if(perMem != per) {
+            int per = ((count * 100) / cities.size());
+            if (perMem != per) {
                 perMem = per;
                 System.out.println("progress: " + per + "% of " + 100 + "%");
             }
