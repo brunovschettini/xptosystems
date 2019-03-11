@@ -47,7 +47,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
   - [GET /status](#get-status) 
   - [POST /city/upload](#post-cityupload)  
   - [GET /city/find/capitals](#get-cityfindcapitals)
-  - [GET /city/stats/min_max_uf](#get-min_max_uf)
+  - [GET /city/stats/min_max_uf](#get-minmaxuf)
   - [GET /city/stats/count/cities/uf/[uf]](#get-citystatscountcitiesufuf)
   - [GET /city/find/ibge_id/[ibge_id]](#get-findibgeidibgeid)
   - [GET /city/find/uf/[uf]](#get-cityfindufuf)
