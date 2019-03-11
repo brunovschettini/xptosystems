@@ -470,15 +470,15 @@ Resposta (Status Code 200):
 
 Resposta (Status Code 200):
 
-{
-    "total": 1003
-}
+    {
+        "total": 1003
+    }
 
 ### DELETE /city/delete/id/[id]
 
  - Permitir deletar uma cidade pelo id
  
- Example: http://localhost/api/city/delete/id/1
+Example: http://localhost/api/city/delete/id/1
 
 Resposta (Status Code 200):
 
