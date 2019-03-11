@@ -1,6 +1,5 @@
 package com.senior.xptosystems.controllers;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.senior.xptosystems.utils.StringsHelper;
 import com.senior.xptosystems.dao.CityDao;
 import com.senior.xptosystems.model.City;
@@ -12,9 +11,8 @@ import com.senior.xptosystems.repositories.MesoregionRepository;
 import com.senior.xptosystems.repositories.MicroregionRepository;
 import com.senior.xptosystems.repositories.UfRepository;
 import com.senior.xptosystems.services.ICityComponent;
-import com.senior.xptosystems.utils.Result;
+import com.senior.xptosystems.utils.Error;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,19 +50,22 @@ public class CityRestController {
     @RequestMapping(method = RequestMethod.POST, value = "/upload", produces = "application/json")
     public ResponseEntity<?> receiveData(MultipartFile csv) throws IOException {
         if (csv.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Error.NOT_FOUND("CSV is empty"), HttpStatus.NOT_FOUND);
         }
         List<City> cities = cityComponent.uploadCSV(csv, true);
-        if (!cities.isEmpty()) {
-            cityComponent.storeAll(cities);
-            return new ResponseEntity<>(cities, HttpStatus.OK);
+        if (cities.isEmpty()) {
+            return new ResponseEntity<>(cities, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        cityComponent.storeAll(cities);
+        return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/find/capitals", produces = "application/json")
     public ResponseEntity<?> findCapitals() throws IOException {
         List<City> list = cityRepository.findByCapitalOrderByNameAsc();
+        if (list.isEmpty()) {
+            return new ResponseEntity<>(list, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -97,6 +98,9 @@ public class CityRestController {
     @RequestMapping(method = RequestMethod.GET, value = "/find/column/{column}/query/{query}", produces = "application/json")
     public ResponseEntity<?> findByColumn(@PathVariable("column") String column, @PathVariable("query") String query) {
         List<City> cities = new CityDao().find(column, query);
+        if (cities.isEmpty()) {
+            return new ResponseEntity<>(cities, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
@@ -104,9 +108,12 @@ public class CityRestController {
     public ResponseEntity<?> findByColumn(@PathVariable("uf") String uf) {
         Uf ufAux = ufRepository.findByNameIgnoreCase(uf);
         if (ufAux == null) {
-            return new ResponseEntity<>("uf not found!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("uf not found!"), HttpStatus.BAD_REQUEST);
         }
         List<City> cities = cityRepository.findByUf_id(ufAux.getId());
+        if (cities.isEmpty()) {
+            return new ResponseEntity<>(cities, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
@@ -114,7 +121,7 @@ public class CityRestController {
     public ResponseEntity<?> statsCountCitiesByUf(@PathVariable("uf") String uf_name) throws IOException {
         Uf uf = ufRepository.findByNameIgnoreCase(uf_name);
         if (uf == null) {
-            return new ResponseEntity<>("uf not found!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("uf not found!"), HttpStatus.BAD_REQUEST);
         }
         Integer count = cityRepository.findCountByUf(uf.getId());
         Map<Object, Object> response = new LinkedHashMap();
@@ -145,21 +152,21 @@ public class CityRestController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> store(@RequestBody City city) {
         if (city.getId() != null) {
-            return new ResponseEntity<>("exists city! use PUT to update!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("exists city! use PUT to update!"), HttpStatus.BAD_REQUEST);
         }
         if (city.getName().isEmpty()) {
-            return new ResponseEntity<>("empty name!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("empty name!"), HttpStatus.BAD_REQUEST);
         }
         if (city.getIbge_id() == null || city.getIbge_id() == 0) {
-            return new ResponseEntity<>("empty ibge id!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("empty ibge id!"), HttpStatus.BAD_REQUEST);
         }
         City c = cityRepository.findByIbge_id(city.getIbge_id());
         if (c != null) {
-            return new ResponseEntity<>("exists ibge_id city!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("exists ibge_id city!"), HttpStatus.BAD_REQUEST);
         }
         if (city.getUf() == null || city.getUf().getId() == null) {
             if ((city.getUfName() == null || city.getUfName().isEmpty())) {
-                return new ResponseEntity<>("empty uf!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Error.BAD_REQUEST("empty uf!"), HttpStatus.BAD_REQUEST);
             }
             Uf uf = ufRepository.findByNameIgnoreCase(city.getUfName());
             if (uf == null) {
@@ -171,7 +178,7 @@ public class CityRestController {
         }
         if (city.getMesoregions() == null || city.getMesoregions().getId() == null) {
             if (city.getMesoregionName() == null || city.getMesoregionName().isEmpty()) {
-                return new ResponseEntity<>("empty mesoregion aux!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Error.BAD_REQUEST("empty mesoregion aux!"), HttpStatus.BAD_REQUEST);
             }
             Mesoregion mesoregion = mesoregionRepository.findByNameIgnoreCase(city.getMesoregionName());
             if (mesoregion == null) {
@@ -183,7 +190,7 @@ public class CityRestController {
         }
         if (city.getMicroregions() == null || city.getMicroregions().getId() == null) {
             if (city.getMicroregionName() == null || city.getMicroregionName().isEmpty()) {
-                return new ResponseEntity<>("empty microregion name!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Error.BAD_REQUEST("empty microregion name!"), HttpStatus.BAD_REQUEST);
             }
             Microregion microregion = microregionRepository.findByNameIgnoreCase(city.getMicroregionName());
             if (microregion == null) {
@@ -197,7 +204,7 @@ public class CityRestController {
         try {
             cityRepository.save(city);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Error.INTERNAL_SERVER_ERROR(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(city, HttpStatus.OK);
     }
@@ -207,17 +214,17 @@ public class CityRestController {
     public ResponseEntity<?> update(@RequestBody City city) {
 
         if (city.getId() == null) {
-            return new ResponseEntity<>("new register! use POST to store/save!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("new register! use POST to store/save!"), HttpStatus.BAD_REQUEST);
         }
         if (city.getName().isEmpty()) {
-            return new ResponseEntity<>("empty name!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("empty name!"), HttpStatus.BAD_REQUEST);
         }
         if (city.getUfName().isEmpty()) {
-            return new ResponseEntity<>("empty uf!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("empty uf!"), HttpStatus.BAD_REQUEST);
         }
         if (city.getUf() == null || city.getUf().getId() == null) {
             if ((city.getUfName() == null || city.getUfName().isEmpty())) {
-                return new ResponseEntity<>("empty uf!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Error.BAD_REQUEST("empty uf!"), HttpStatus.BAD_REQUEST);
             }
             Uf uf = ufRepository.findByNameIgnoreCase(city.getUfName());
             if (uf == null) {
@@ -229,7 +236,7 @@ public class CityRestController {
         }
         if (city.getMesoregions() == null || city.getMesoregions().getId() == null) {
             if (city.getMesoregionName() == null || city.getMesoregionName().isEmpty()) {
-                return new ResponseEntity<>("empty mesoregion aux!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Error.BAD_REQUEST("empty mesoregion aux!"), HttpStatus.BAD_REQUEST);
             }
             Mesoregion mesoregion = mesoregionRepository.findByNameIgnoreCase(city.getMesoregionName());
             if (mesoregion == null) {
@@ -241,7 +248,7 @@ public class CityRestController {
         }
         if (city.getMicroregions() == null || city.getMicroregions().getId() == null) {
             if (city.getMicroregionName() == null || city.getMicroregionName().isEmpty()) {
-                return new ResponseEntity<>("empty microregion name!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Error.BAD_REQUEST("empty microregion name!"), HttpStatus.BAD_REQUEST);
             }
             Microregion microregion = microregionRepository.findByNameIgnoreCase(city.getMicroregionName());
             if (microregion == null) {
@@ -255,7 +262,7 @@ public class CityRestController {
         try {
             cityRepository.save(city);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Error.INTERNAL_SERVER_ERROR(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(city, HttpStatus.OK);
     }
@@ -264,12 +271,12 @@ public class CityRestController {
     public ResponseEntity<?> deleteByIbgeId(@PathVariable("ibge_id") Long ibge_id) {
         City city = cityRepository.findByIbge_id(ibge_id);
         if (city == null || city.getId() == null) {
-            return new ResponseEntity<>("empty city!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Error.BAD_REQUEST("empty city!"), HttpStatus.BAD_REQUEST);
         }
         try {
             cityRepository.delete(city);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Error.INTERNAL_SERVER_ERROR(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
