@@ -24,10 +24,10 @@ public class CityDao {
                 queryString = "SELECT C.* FROM city C WHERE C.ibge_id = " + query + " ORDER BY C.name ASC";
                 break;
             case "uf":
-                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE M.name LIKE '%" + query + "%' ORDER BY u.name ASC, C.no_accents ASC";
+                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE UPPER(u.name) LIKE UPPER('%" + query + "%') ORDER BY u.name ASC, C.no_accents ASC";
                 break;
             case "name":
-                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE C.name LIKE '%" + query + "%' ORDER BY u.name ASC, C.no_accents ASC";
+                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE UPPER(C.name) LIKE UPPER('%" + query + "%') ORDER BY u.name ASC, C.no_accents ASC";
                 break;
             case "lon":
                 queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE C.lon >= " + query + " ORDER BY C.lon ASC";
@@ -36,16 +36,16 @@ public class CityDao {
                 queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE C.lat >= " + query + " ORDER BY C.lan ASC";
                 break;
             case "no_accents":
-                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE C.no_accents LIKE '%" + query + "%' ORDER BY u.name ASC, C.no_accents ASC";
+                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE UPPER(C.no_accents) LIKE UPPER('%" + query + "%') ORDER BY u.name ASC, C.no_accents ASC";
                 break;
             case "alternative_names":
-                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE C.alternative_names LIKE '%" + query + "%' ORDER BY U.name ASC, C.alternative_names ASC";
+                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id WHERE UPPER(C.alternative_names) LIKE UPPER('%" + query + "%') ORDER BY U.name ASC, C.alternative_names ASC";
                 break;
             case "microregion":
-                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id INNER JOIN microregion M ON M.id = C.microregions_id WHERE M.name LIKE '%" + query + "%' ORDER BY M.name ASC";
+                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id INNER JOIN microregion M ON M.id = C.microregions_id WHERE UPPER(M.name) LIKE UPPER('%" + query + "%') ORDER BY M.name ASC";
                 break;
             case "mesoregion":
-                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id INNER JOIN mesoregion M ON M.id = C.mesoregions_id WHERE M.name LIKE '%" + query + "%' ORDER BY M.name ASC";
+                queryString = "SELECT C.* FROM city C INNER JOIN Uf u ON u.id = C.uf_id INNER JOIN mesoregion M ON M.id = C.mesoregions_id WHERE UPPER(M.name) LIKE UPPER('%" + query + "%') ORDER BY M.name ASC";
                 break;
             default:
                 break;

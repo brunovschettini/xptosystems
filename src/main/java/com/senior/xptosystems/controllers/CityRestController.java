@@ -77,7 +77,7 @@ public class CityRestController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/stats/total/cities", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/stats/total", produces = "application/json")
     public ResponseEntity<?> total() {
         Integer total = cityRepository.total();
         if (total == 0) {
@@ -93,7 +93,7 @@ public class CityRestController {
             return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
         }
         Integer total = new CityDao().count(column);
-        String result = "{\"total\": " + total + "}";
+        String result = "{\"column\":\"" + column + "\", \"total\": " + total + "}";
         // return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -104,6 +104,20 @@ public class CityRestController {
             return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
         }
         List<City> cities = new CityDao().find(column, query);
+        return new ResponseEntity<>(cities, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/find/uf/{uf}", produces = "application/json")
+    public ResponseEntity<?> findByColumn(@PathVariable("uf") String uf) {
+        if (uf == null || uf.isEmpty()) {
+            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
+        }
+        Uf ufAux = ufRepository.findByNameIgnoreCase(uf);
+        if (ufAux == null) {
+            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
+        }
+
+        List<City> cities = cityRepository.findByUf_id(ufAux.getId());
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
@@ -134,6 +148,18 @@ public class CityRestController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/find/id/{id}", produces = "application/json")
+    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+        if (id == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        City city = cityRepository.getOne(id);
+        if (city == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(city, HttpStatus.OK);
+    }
+
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> store(@RequestBody City city) {
@@ -154,10 +180,10 @@ public class CityRestController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         City c = cityRepository.findByIbge_id(city.getIbge_id());
-        if(c != null) {
+        if (c != null) {
             result.setStatus_code(0);
             result.setStatus("exists ibge_id city!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);            
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         if (city.getUf() == null || city.getUf().getId() == null) {
             if ((city.getUfName() == null || city.getUfName().isEmpty())) {
@@ -182,7 +208,7 @@ public class CityRestController {
             Mesoregion mesoregion = mesoregionRepository.findByNameIgnoreCase(city.getMesoregionName());
             if (mesoregion == null) {
                 mesoregion = new Mesoregion();
-                mesoregion.setName(city.getUfName());
+                mesoregion.setName(city.getMesoregionName());
                 mesoregionRepository.save(mesoregion);
             }
             city.setMesoregions(mesoregion);
@@ -196,7 +222,7 @@ public class CityRestController {
             Microregion microregion = microregionRepository.findByNameIgnoreCase(city.getMicroregionName());
             if (microregion == null) {
                 microregion = new Microregion();
-                microregion.setName(city.getUfName());
+                microregion.setName(city.getMicroregionName());
                 microregionRepository.save(microregion);
             }
             city.setMicroregions(microregion);
@@ -211,7 +237,7 @@ public class CityRestController {
         }
         result.setStatus("success: city nº " + city.getId() + " registered");
         result.setResult(city);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)

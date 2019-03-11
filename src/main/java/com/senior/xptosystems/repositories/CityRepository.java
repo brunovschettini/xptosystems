@@ -16,7 +16,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
     City findByIbge_id(Long ibge_id);
 
     @Query("SELECT C FROM City C WHERE C.uf.id = ?1 ORDER BY C.name")
-    List<City> findByUf_if(Long uf_if);
+    List<City> findByUf_id(Long uf_if);
 
     @Query(
             value = " "

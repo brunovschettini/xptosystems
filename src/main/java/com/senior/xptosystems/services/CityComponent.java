@@ -133,6 +133,7 @@ public class CityComponent implements ICityComponent {
             return new ArrayList();
         }
         int count = 1;
+        int perMem = 0;
         for (City c : cities) {
             if (c.getId() == null) {
                 City c1 = cityRepository.findByIbge_id(c.getIbge_id());
@@ -167,7 +168,11 @@ public class CityComponent implements ICityComponent {
                 }
             }
             cityRepository.save(c);
-            System.out.println(count + " of " + cities.size());
+            int per =  ((count * 100) / cities.size());
+            if(perMem != per) {
+                perMem = per;
+                System.out.println("progress: " + per + "% of " + 100 + "%");
+            }
             count++;
         }
         return cities;

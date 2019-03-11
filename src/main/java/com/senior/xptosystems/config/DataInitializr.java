@@ -32,7 +32,7 @@ public class DataInitializr implements ApplicationListener<ContextRefreshedEvent
 
         cityComponent.storeAll(list);
 
-        System.out.println("Success, registed cities");
+        System.out.println("Success, " + list.size() + " cities registered");
 
     }
 
