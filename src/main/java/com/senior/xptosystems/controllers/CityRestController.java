@@ -314,33 +314,7 @@ public class CityRestController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        Result result = new Result();
-        if (id == null) {
-            result.setStatus_code(0);
-            result.setStatus("empty city id!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-        }
-        City city = cityRepository.getOne(id);
-        if (city == null || city.getId() == null) {
-            result.setStatus_code(0);
-            result.setStatus("empty city!");
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-        }
-        try {
-            cityRepository.delete(city);
-            // em.flush();
-        } catch (Exception e) {
-            result.setStatus_code(0);
-            result.setStatus("city e->" + e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-        }
-        result.setStatus("success: city nº " + city.getId() + " removed");
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/delete/ibge_id/{ibge_id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{ibge_id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteByIbgeId(@PathVariable("ibge_id") Long ibge_id) {
         Result result = new Result();
         if (ibge_id == null) {
