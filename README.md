@@ -46,11 +46,11 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
 
 ## Parte 3 – SQL Prático
 
-* [Excercício 1](#https://github.com/ilines/xptosystems/blob/master/SCRIPT1.sql)
-* [Excercício 2](#https://github.com/ilines/xptosystems/blob/master/SCRIPT2.sql)
-* [Excercício 3](#https://github.com/ilines/xptosystems/blob/master/SCRIPT3.sql)
-* [Excercício 4](#https://github.com/ilines/xptosystems/blob/master/SCRIPT4.sql)
-* [Excercício 5](#https://github.com/ilines/xptosystems/blob/master/SCRIPT5.sql)
+* [Excercício 1](https://github.com/ilines/xptosystems/blob/master/SCRIPT1.sql)
+* [Excercício 2](https://github.com/ilines/xptosystems/blob/master/SCRIPT2.sql)
+* [Excercício 3](https://github.com/ilines/xptosystems/blob/master/SCRIPT3.sql)
+* [Excercício 4](https://github.com/ilines/xptosystems/blob/master/SCRIPT4.sql)
+* [Excercício 5](https://github.com/ilines/xptosystems/blob/master/SCRIPT5.sql)
  
 
 ## Relações dos UF Brasileiros
