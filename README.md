@@ -10,7 +10,7 @@ Desafio das Cidades Sênior
 * [Desenvolvimento](#desenvolvimento)
 * [Parte 1 – SQL Conceitual](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md#folha-de-respostas)
 * [Parte 2 – SQL Prático](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md#parte-2--sql-pr%C3%A1tico)
-* [Parte 3 – SQL Prático](#parte-3--sqlpratico)
+* [Parte 3 – SQL Prático](#parte-3--sql-prático)
 * [Relação dos UF Brasileiros](#relacaodosufbrasileiros)
 * [Pedidos & Respostas](#pedidos--respostas)
 * [Comentários](#comentarios)
