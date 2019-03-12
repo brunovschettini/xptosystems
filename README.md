@@ -399,7 +399,7 @@ Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api.
 
  - Permitir selecionar uma coluna (do CSV) e através dela entrar com uma string para filtrar. retornar assim todos os objetos que contenham tal string
  
-- Columns [opções de colunas]: ibge_id, uf, name, no_accents, alternative_names, microregion e mesoregion
+* OPTIONS
 
 | COLUMN             | TYPE        | EXAMPLE     |
 | ------------------ | ----------- | ---------   |
