@@ -56,7 +56,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
   - [GET /city/find/column/[column]/query/[query]](#get-cityfindcolumncolumnqueryquery)
   - [GET /city/stats/count/column/[column]](#get-citystatscountcolumncolumn)  
   - [GET /city/stats/total](#get-citystatstotal)
-  - [GET /city/stats/max_distance](#get-max_distance)
+  - [GET /city/find/two_most_distant](#get-citytwo_most_distant)
 
 ### Extras
 
@@ -474,17 +474,19 @@ Resposta (Status Code 200):
         "total": 1003
     }
 
-### GET /city/max_discance
+### GET /city/find/two_most_distant
 
 - Dentre todas as cidades, obter as duas cidades mais distantes uma da outra com base na localização (distância em KM em linha reta)
 
-Example: http://localhost/api/city/max_discance
+Example: http://localhost/api/city/find/two_most_distant
 
 Resposta (Status Code 200): 
 
     {
-        "cities": "A x B",
-        "distance": 0
+        "distance": 0,
+        "from": "city a",
+        "to": "city b",
+        "factor": "km"
     }
 
 ### GET /city/[id]
