@@ -1,13 +1,19 @@
 # XPTO Systems
+
 Desafio das Cidades Sênior
+
+| Data       | Candidato                       |
+| ---------- | ------------------------------- |
+| 11/03/2019 | Bruno Vieira Schettini da Silva |
 
 * [Considerações](#considerações)
 * [Desenvolvimento](#desenvolvimento)
+* [Parte 1 – SQL Conceitual](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md#folha-de-respostas)
+* [Parte 2 – SQL Prático](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md#parte-2--sql-pr%C3%A1tico)
+* [Parte 3 – SQL Prático]
 * [Relação dos UF Brasileiros](#relacaodosufbrasileiros)
 * [Pedidos & Respostas](#pedidos--respostas)
 * [Comentários](#comentarios)
-* [Parte 1 – SQL Conceitual](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md)
-* [Parte 2 – SQL Prático](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md)
 
 
 ## Considerações
@@ -37,6 +43,15 @@ A base de dados foi usada [H2](http://www.h2database.com) (banco de dados em mem
 O [Tomcat](https://tomcat.apache.org/download-80.cgi#8.5.37) (Versão 8.044) foi usado como o container da aplicação.
 
 Depois da primeira execução as entidades serão criadas no banco de dados e o arquivo cities.csv será exportado para o banco de dados.
+
+## Parte 3 – SQL Prático
+
+    * [Excercício 1](https://github.com/ilines/xptosystems/blob/master/SCRIPT1.sql)
+    * [Excercício 2](https://github.com/ilines/xptosystems/blob/master/SCRIPT2.sql)
+    * [Excercício 3](https://github.com/ilines/xptosystems/blob/master/SCRIPT3.sql)
+    * [Excercício 4](https://github.com/ilines/xptosystems/blob/master/SCRIPT4.sql)
+    * [Excercício 5](https://github.com/ilines/xptosystems/blob/master/SCRIPT5.sql)
+ 
 
 ## Relações dos UF Brasileiros
 

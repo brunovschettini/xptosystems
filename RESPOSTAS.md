@@ -1,9 +1,8 @@
 # Folha de respostas
-________________________________________
-|Nome:| Bruno Vieira Schettini da Silva | 
-________________________________________
-|Data:| 11/03/2019                      |
-________________________________________
+
+| Data       | Candidato                       |
+| ---------- | ------------------------------- |
+| 11/03/2019 | Bruno Vieira Schettini da Silva |
 
 ## Parte 1 – SQL Conceitual 
 
