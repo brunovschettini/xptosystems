@@ -6,6 +6,8 @@ Desafio das Cidades Sênior
 * [Relação dos UF Brasileiros](#relacaodosufbrasileiros)
 * [Pedidos & Respostas](#pedidos--respostas)
 * [Comentários](#comentarios)
+* [Parte 1 – SQL Conceitual](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md)
+* [Parte 2 – SQL Prático](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md)
 
 
 ## Considerações
