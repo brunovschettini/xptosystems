@@ -331,6 +331,11 @@ Raw:
         "mesoregionName": "mesoregion do parara"
     }
 
+
+Content-Type:
+
+    application/json
+
 Resposta (Http Status 200):
 
     {
@@ -369,6 +374,10 @@ Resposta (Http Status 200):
  - Permitir deletar uma cidade
  
  Example: http://localhost/api/city/1234567
+ 
+Content-Type:
+
+    application/json 
 
 Resposta (Status Code 200):
 
@@ -390,9 +399,22 @@ Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api.
 
  - Permitir selecionar uma coluna (do CSV) e através dela entrar com uma string para filtrar. retornar assim todos os objetos que contenham tal string
  
-- Column [opções de colunas]: ibge_id, uf, name, lon, lat, no_accents, alternative_names, microregion e mesoregion
+- Columns [opções de colunas]: ibge_id, uf, name, no_accents, alternative_names, microregion e mesoregion
+
+| COLUMN             | TYPE        | EXAMPLE     |
+| ------------------ | ----------- | ---------   |
+| ibge_id            | Long        | 1234567     |
+| uf                 | String      | SP          |
+| no_accents         | String      | rio         |
+| alternative_names  | String      | salvador    |
+| microregion        | String      | jequitin    |
+| mesoregion         | String      | vale        |
 
 Example: http://localhost/api/city/find/column/uf/query/sp
+
+Content-Type:
+
+    application/json
 
 Resposta (200 - OK):
 
@@ -457,6 +479,10 @@ Resposta (200 - OK):
 
 * Column [opções de colunas]: ibge_id, uf, name, no_accents, alternative_names, microregion e mesoregion
 
+Content-Type:
+
+    application/json
+
 Resposta (Status Code 200):
 
     {
@@ -467,6 +493,10 @@ Resposta (Status Code 200):
 ### GET /city/stats/total  
 
 - Retornar a quantidade de registros total
+
+Content-Type:
+
+    application/json
 
 Resposta (Status Code 200):
 
@@ -479,6 +509,10 @@ Resposta (Status Code 200):
 - Dentre todas as cidades, obter as duas cidades mais distantes uma da outra com base na localização (distância em KM em linha reta)
 
 Example: http://localhost/api/city/find/two_most_distant
+
+Content-Type:
+
+    application/json
 
 Resposta (Status Code 200): 
 
@@ -494,6 +528,10 @@ Resposta (Status Code 200):
  - Obter os dados da cidade informando o id cadastrado na base de dados
 
 Exemplo: http://localhost/api/city/1
+
+Content-Type:
+
+    application/json
 
 Resposta (Http Status 200):
 
