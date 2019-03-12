@@ -2,6 +2,7 @@
 -- Nome: Bruno Vieira Schettini da Silva
 -- Data: 11/03/2019
 -- Parte 3 – PL/SQL Prático
+-- Local do teste: https://livesql.oracle.com
 
 /*
 Exercício 1.

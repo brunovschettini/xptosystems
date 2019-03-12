@@ -2,6 +2,8 @@
 -- Parte 3 – PL/SQL Prático
 -- Nome: Bruno Vieira Schettini da Silva
 -- Data: 11/03/2019
+-- Local do teste: https://livesql.oracle.com
+
 -- Exercício 2.
 -- Crie um segundo script (SCRIPT2.SQL) que possua um bloco de código para que gere registros fictícios para as tabelas criadas. Gere 1000 registros para a tabela EXAME_NF. Para cada EXAME_NF gere 3 registros. Faça com que a DATACADASTRO do EXAME_NF comece em 10 dias atrás, fazendo com que a cada 100 registros a data seja aumentada em 1 dia, distribuindo assim os 1000 registros em 10 dias diferentes de cadastro.
 
@@ -35,7 +37,7 @@ BEGIN
 
         -- SELECT MAX(IDNF) INTO :idnf FROM EXAME_NF;
         
-                         -- SELECT round(dbms_random.value(1,100)) AS  FROM dual;
+        -- SELECT round(dbms_random.value(1,100)) AS  FROM dual;
                          
         -- EXAME_ITEMNF 1                         
         SELECT CAST(round(dbms_random.value(1,100)) AS number) INTO amount FROM dual;
@@ -50,7 +52,7 @@ BEGIN
         SELECT round(dbms_random.value(1,1000), 2) INTO valor FROM dual;
         INSERT INTO EXAME_ITEMNF (IDNF, IDPRODUTO, NUMERO, QTDE, VALOR) VALUES (xcount, 1, (xcount * (1 + 1000 + amount)) , amount, valor);
         
-
+        -- rodar teste
         -- Adicionando itens
         -- FOR itensx IN 1..3 LOOP
 
