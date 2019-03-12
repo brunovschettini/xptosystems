@@ -129,6 +129,10 @@ Resposta (Http Status 200):
             "capital": true,
             "lon": 0,
             "lat": 0,
+            "locationPoint": {
+                "x": 0,
+                "y": 0
+            },
             "noAccents": "city name no accents",
             "alternativeNames": "",
             "microregions": {
@@ -155,6 +159,10 @@ Resposta (Http Status 200):
             "capital": true,
             "lon": 0,
             "lat": 0,
+            "locationPoint": {
+                "x": 0,
+                "y": 0
+            },            
             "noAccents": "city name 2 no accents",
             "alternativeNames": "",
             "microregions": {
@@ -226,6 +234,10 @@ Resposta (Http Status 200):
         "capital": true,
         "lon": 0,
         "lat": 0,
+        "locationPoint": {
+            "x": 0,
+            "y": 0
+        },        
         "noAccents": "city name 2 no accents",
         "alternativeNames": "",
         "microregions": {
@@ -262,6 +274,10 @@ Resposta (Http Status 200):
             "capital": true,
             "lon": 0,
             "lat": 0,
+            "locationPoint": {
+                "x": 0,
+                "y": 0
+            },            
             "noAccents": "city name 2 no accents",
             "alternativeNames": "",
             "microregions": {
@@ -288,6 +304,10 @@ Resposta (Http Status 200):
             "capital": true,
             "lon": 0,
             "lat": 0,
+            "locationPoint": {
+                "x": 0,
+                "y": 0
+            },            
             "noAccents": "city name 2 no accents",
             "alternativeNames": "",
             "microregions": {
@@ -369,6 +389,10 @@ Resposta (Http Status 200):
             "capital": false,
             "lon": 0,
             "lat": 0,
+            "locationPoint": {
+                "x": 0,
+                "y": 0
+            },            
             "noAccents": "parara",
             "alternativeNames": "parararara",
             "microregions": {
@@ -447,6 +471,10 @@ Resposta (200 - OK):
             "capital": false,
             "lon": -48.8844038207,
             "lat": -1.7234698628,
+            "locationPoint": {
+                "x": -1.7234698628,
+                "y": -48.8844038207
+            },
             "noAccents": "Abaetetuba",
             "alternativeNames": "",
             "microregions": {
@@ -473,6 +501,10 @@ Resposta (200 - OK):
             "capital": false,
             "lon": -48.3967621258,
             "lat": -4.9513908955,
+            "locationPoint": {
+                "x": -4.9513908955,
+                "y": -48.3967621258
+            },
             "noAccents": "Abel Figueiredo",
             "alternativeNames": "",
             "microregions": {
@@ -563,6 +595,10 @@ Resposta (Http Status 200):
         "capital": true,
         "lon": 0,
         "lat": 0,
+        "locationPoint": {
+            "x": 0,
+            "y": 0
+        },        
         "noAccents": "city name 2 no accents",
         "alternativeNames": "",
         "microregions": {
