@@ -1,8 +1,11 @@
 package com.senior.xptosystems.model;
 
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import org.springframework.data.geo.Point;
 
 @Entity
 @Table(
@@ -38,6 +41,8 @@ public class City implements Serializable {
 
     @Column(nullable = false, precision = 12, scale = 10, columnDefinition = "double precision  default 0")
     private Double lat;
+
+    private Point locationPoint;
 
     @Column(name = "no_accents", nullable = false, length = 100, columnDefinition = "varchar(100) default ''")
     private String noAccents;
@@ -80,6 +85,7 @@ public class City implements Serializable {
         this.microregions = microregions;
         this.mesoregions = mesoregions;
         this.createdAt = createdAt;
+        // this.locationPoint = (Point) wktToGeometry(lon + " " + lat);
     }
 
     public City(Long ibge_id, String ufName, String name, Boolean capital, Double lon, Double lat, String noAccents, String alternativeNames, String microregionName, String mesoregionName) {
@@ -93,6 +99,8 @@ public class City implements Serializable {
         this.alternativeNames = alternativeNames;
         this.microregionName = microregionName;
         this.mesoregionName = mesoregionName;
+        // this.locationPoint = (Point) wktToGeometry(lat + " " + lon);
+        this.locationPoint = new Point(lat, lon);
     }
 
     public Long getId() {
@@ -221,5 +229,22 @@ public class City implements Serializable {
     public void setMesoregionName(String mesoregionName) {
         this.mesoregionName = mesoregionName;
     }
+
+    public Point getLocationPoint() {
+        return locationPoint;
+    }
+
+    public void setLocationPoint(Point locationPoint) {
+        this.locationPoint = locationPoint;
+    }
+//
+//    public static Geometry wktToGeometry(String wellKnownText) {
+//
+//        try {
+//            return new WKTReader().read(wellKnownText);
+//        } catch (ParseException ex) {
+//            return null;
+//        }
+//    }
 
 }

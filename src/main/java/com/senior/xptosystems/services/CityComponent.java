@@ -72,8 +72,10 @@ public class CityComponent implements ICityComponent {
                 City c = new City(Long.parseLong(nextLine[0]), nextLine[1], nextLine[2], Boolean.parseBoolean(nextLine[3]), Double.parseDouble(nextLine[4]), Double.parseDouble(nextLine[5]), nextLine[6], nextLine[7], nextLine[8], nextLine[9]);
                 cities.add(c);
                 i++;
-                if(i == settings.getLimit()) {
-                    break;
+                if (settings.getLimit() != null && settings.getLimit() != 0) {
+                    if (i == settings.getLimit()) {
+                        break;
+                    }
                 }
             }
             return cities;

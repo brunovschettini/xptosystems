@@ -13,6 +13,8 @@ import com.senior.xptosystems.repositories.UfRepository;
 import com.senior.xptosystems.services.ICityComponent;
 import com.senior.xptosystems.utils.Error;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,6 +139,20 @@ public class CityRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(city, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/find/two_most_distant", produces = "application/json")
+    public ResponseEntity<?> findTwoDistanceCities() {
+        List<Object[]> rows = cityRepository.findTwoDistanceCities();
+        if (rows.isEmpty()) {
+            return new ResponseEntity<>(new ArrayList(), HttpStatus.NOT_FOUND);
+        }
+        Map<Object, Object> map = new HashMap<>();
+        map.put("from", rows.get(0)[0]);
+        map.put("to", rows.get(0)[1]);
+        map.put("distance", rows.get(0)[2]);
+        map.put("factor", "km");
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}", produces = "application/json")
