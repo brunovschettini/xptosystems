@@ -7,13 +7,13 @@ ________________________________________
 
 ## Parte 1 – SQL Conceitual 
 
-Respostas
-
-1 - A
-2 - B , E
-3 - A
-4 - D
-5 - A
+|Respostas |
+------------
+|1 | A     |
+|2 | B , E |
+|3 | A     | 
+|4 | D     |
+|5 | A     |
 
 ## Parte 2 – SQL Prático
 
