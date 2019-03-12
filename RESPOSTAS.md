@@ -7,49 +7,51 @@ ________________________________________
 
 ## Parte 1 – SQL Conceitual 
 
-Respostas
+* Respostas 
 
-1 - A
-2 - B , E
-3 - A
-4 - D
-5 - A
+| Q | R      |
+| - | ------ |
+| 1 | A      |
+| 2 | B, E   |
+| 3 | A      |
+| 4 | D      |
+| 5 | A      |
+ 
 
 ## Parte 2 – SQL Prático
 
-* Exercício 1.
+* Exercício 1
 
-    -- DROP TABLE PRODUTO;
+      -- DROP TABLE PRODUTO;
+      create table PRODUTO (
+         IDPRODUTO number not null constraint produto_pk primary key,
+         CODIGOINTERNO varchar2(60) not null,
+         DESCR varchar2(120) not null,
+         ATIVO char(1) char(1) DEFAULT 'S' not null
+      );
+      /
 
-    create table PRODUTO (
-        IDPRODUTO number not null constraint produto_pk primary key,
-        CODIGOINTERNO varchar2(60) not null,
-        DESCR varchar2(120) not null,
-        ATIVO char(1) char(1) DEFAULT 'S' not null
-    );
-    /
 
+      -- DROP TABLE EMBALAGEM;
 
-    -- DROP TABLE EMBALAGEM;
-
-    create table EMBALAGEM (
-        IDPRODUTO number not null,
-        BARRA varchar2(32) not null,
-        DESCR varchar2(80) not null,
-        FATORCONVERSAO number not null,
-        ALTURA number DEFAULT 0,
-        LARGURA number DEFAULT 0,
-        COMPRIMENTO number,
-        ATIVO char(1) DEFAULT 'S' not null,
-        CONSTRAINT fk_produto
-        FOREIGN KEY (IDPRODUTO)
-        REFERENCES PRODUTO(IDPRODUTO)
+      create table EMBALAGEM (
+         IDPRODUTO number not null,
+         BARRA varchar2(32) not null,
+         DESCR varchar2(80) not null,
+         FATORCONVERSAO number not null,
+         ALTURA number DEFAULT 0,
+         LARGURA number DEFAULT 0,
+         COMPRIMENTO number,
+         ATIVO char(1) DEFAULT 'S' not null,
+         CONSTRAINT fk_produto
+         FOREIGN KEY (IDPRODUTO)
+         REFERENCES PRODUTO(IDPRODUTO)
         
-    );
+      );
 
-    ALTER TABLE EMBALAGEM ADD CONSTRAINT embalagem_pk PRIMARY KEY (IDPRODUTO, BARRA);
+      ALTER TABLE EMBALAGEM ADD CONSTRAINT embalagem_pk PRIMARY KEY (IDPRODUTO, BARRA);
 
-    /
+       /
 
 Respostas: 
 

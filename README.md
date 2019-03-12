@@ -6,6 +6,8 @@ Desafio das Cidades Sênior
 * [Relação dos UF Brasileiros](#relacaodosufbrasileiros)
 * [Pedidos & Respostas](#pedidos--respostas)
 * [Comentários](#comentarios)
+* [Parte 1 – SQL Conceitual](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md)
+* [Parte 2 – SQL Prático](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md)
 
 
 ## Considerações
@@ -56,7 +58,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
   - [GET /city/find/column/[column]/query/[query]](#get-cityfindcolumncolumnqueryquery)
   - [GET /city/stats/count/column/[column]](#get-citystatscountcolumncolumn)  
   - [GET /city/stats/total](#get-citystatstotal)
-  - [GET /city/stats/max_distance](#get-max_distance)
+  - [GET /city/find/two_most_distant](#get-citytwo_most_distant)
 
 ### Extras
 
@@ -331,6 +333,11 @@ Raw:
         "mesoregionName": "mesoregion do parara"
     }
 
+
+Content-Type:
+
+    application/json
+
 Resposta (Http Status 200):
 
     {
@@ -369,6 +376,10 @@ Resposta (Http Status 200):
  - Permitir deletar uma cidade
  
  Example: http://localhost/api/city/1234567
+ 
+Content-Type:
+
+    application/json 
 
 Resposta (Status Code 200):
 
@@ -390,9 +401,22 @@ Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api.
 
  - Permitir selecionar uma coluna (do CSV) e através dela entrar com uma string para filtrar. retornar assim todos os objetos que contenham tal string
  
-- Column [opções de colunas]: ibge_id, uf, name, lon, lat, no_accents, alternative_names, microregion e mesoregion
+* OPTIONS
+
+| COLUMN             | TYPE        | EXAMPLE     |
+| ------------------ | ----------- | ---------   |
+| ibge_id            | Long        | 1234567     |
+| uf                 | String      | SP          |
+| no_accents         | String      | rio         |
+| alternative_names  | String      | salvador    |
+| microregion        | String      | jequitin    |
+| mesoregion         | String      | vale        |
 
 Example: http://localhost/api/city/find/column/uf/query/sp
+
+Content-Type:
+
+    application/json
 
 Resposta (200 - OK):
 
@@ -457,6 +481,10 @@ Resposta (200 - OK):
 
 * Column [opções de colunas]: ibge_id, uf, name, no_accents, alternative_names, microregion e mesoregion
 
+Content-Type:
+
+    application/json
+
 Resposta (Status Code 200):
 
     {
@@ -468,23 +496,33 @@ Resposta (Status Code 200):
 
 - Retornar a quantidade de registros total
 
+Content-Type:
+
+    application/json
+
 Resposta (Status Code 200):
 
     {
         "total": 1003
     }
 
-### GET /city/max_discance
+### GET /city/find/two_most_distant
 
 - Dentre todas as cidades, obter as duas cidades mais distantes uma da outra com base na localização (distância em KM em linha reta)
 
-Example: http://localhost/api/city/max_discance
+Example: http://localhost/api/city/find/two_most_distant
+
+Content-Type:
+
+    application/json
 
 Resposta (Status Code 200): 
 
     {
-        "cities": "A x B",
-        "distance": 0
+        "distance": 0,
+        "from": "city a",
+        "to": "city b",
+        "factor": "km"
     }
 
 ### GET /city/[id]
@@ -492,6 +530,10 @@ Resposta (Status Code 200):
  - Obter os dados da cidade informando o id cadastrado na base de dados
 
 Exemplo: http://localhost/api/city/1
+
+Content-Type:
+
+    application/json
 
 Resposta (Http Status 200):
 
