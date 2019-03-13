@@ -2,10 +2,6 @@
 
 Desafio das Cidades Sênior
 
-| Data       | Candidato                       |
-| ---------- | ------------------------------- |
-| 11/03/2019 | Bruno Vieira Schettini da Silva |
-
 * [Considerações](#considerações)
 * [Desenvolvimento](#desenvolvimento)
 * [Parte 1 – SQL Conceitual](https://github.com/ilines/xptosystems/blob/master/RESPOSTAS.md#folha-de-respostas)
