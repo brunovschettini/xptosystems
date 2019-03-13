@@ -13,15 +13,21 @@
 CREATE OR REPLACE PROCEDURE DEFINIR_VALORES(xidnf NUMBER)
 
 IS
-    TOTAL number := 0;
+    TOTAL number;
 
 BEGIN
 
-    UPDATE EXAME_ITEMNF SET VALOR = (SELECT CAST(round(dbms_random.value(1,100)) AS number) FROM dual) WHERE IDNF = xidnf;
+    FOR ITEMS IN (
+        SELECT * FROM EXAME_ITEMNF WHERE IDNF = xidnf
+    ) LOOP   
+        -- UPDATE EXAME_ITEMNF SET VALOR = (SELECT CAST(round(dbms_random.value(1,100)) AS number) FROM dual) WHERE IDNF = xidnf        
+        UPDATE EXAME_ITEMNF SET VALOR = (SELECT CAST(round(dbms_random.value(1,100)) AS number) FROM dual) WHERE IDITEMNF = ITEMS.IDITEMNF;
+    END LOOP;    
 
     SELECT SUM(VALOR) INTO TOTAL FROM EXAME_ITEMNF WHERE IDNF = xidnf;
 
     UPDATE EXAME_NF SET TOTALGERAL = TOTAL  WHERE IDNF = xidnf;
 
 END;
-/
+
+-- EXEC DEFINIR_VALORES(1)
