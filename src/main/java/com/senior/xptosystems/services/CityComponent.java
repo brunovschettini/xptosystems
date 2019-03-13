@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -139,6 +140,10 @@ public class CityComponent implements ICityComponent {
         }
         int count = 1;
         int perMem = 0;
+        System.out.println(new Date().toInstant());
+        System.out.print("percent completed:   0 %");
+        int dot = 0;
+        String dotString = "";
         for (City c : cities) {
             if (c.getId() == null) {
                 City c1 = cityRepository.findByIbge_id(c.getIbge_id());
@@ -171,12 +176,20 @@ public class CityComponent implements ICityComponent {
                     }
                     c.setMesoregions(mesoregionRepository.getOne(mesoregion.getId()));
                 }
-            }
+            }            
             cityRepository.save(c);
             int per = ((count * 100) / cities.size());
             if (perMem != per) {
                 perMem = per;
-                System.out.println("progress: " + per + "% of " + 100 + "%");
+                System.out.printf("\b\b\b\b\b%3d %%" + dotString, (per));
+                // System.out.println("progress: " + per + "% of " + 100 + "%");
+            }
+            dot++;
+            if (dot == 4) {
+                dot = 0;
+                dotString = "";
+            } else {
+                dotString += ".";
             }
             count++;
         }

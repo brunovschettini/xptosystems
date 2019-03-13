@@ -1,7 +1,5 @@
 package com.senior.xptosystems.model;
 
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
@@ -42,6 +40,7 @@ public class City implements Serializable {
     @Column(nullable = false, precision = 12, scale = 10, columnDefinition = "double precision  default 0")
     private Double lat;
 
+    @Column(name = "location_point")
     private Point locationPoint;
 
     @Column(name = "no_accents", nullable = false, length = 100, columnDefinition = "varchar(100) default ''")
@@ -85,7 +84,7 @@ public class City implements Serializable {
         this.microregions = microregions;
         this.mesoregions = mesoregions;
         this.createdAt = createdAt;
-        // this.locationPoint = (Point) wktToGeometry(lon + " " + lat);
+        this.locationPoint = new Point(lat, lon);
     }
 
     public City(Long ibge_id, String ufName, String name, Boolean capital, Double lon, Double lat, String noAccents, String alternativeNames, String microregionName, String mesoregionName) {
@@ -99,7 +98,6 @@ public class City implements Serializable {
         this.alternativeNames = alternativeNames;
         this.microregionName = microregionName;
         this.mesoregionName = mesoregionName;
-        // this.locationPoint = (Point) wktToGeometry(lat + " " + lon);
         this.locationPoint = new Point(lat, lon);
     }
 
@@ -237,14 +235,10 @@ public class City implements Serializable {
     public void setLocationPoint(Point locationPoint) {
         this.locationPoint = locationPoint;
     }
-//
-//    public static Geometry wktToGeometry(String wellKnownText) {
-//
-//        try {
-//            return new WKTReader().read(wellKnownText);
-//        } catch (ParseException ex) {
-//            return null;
-//        }
-//    }
+
+    @Override
+    public String toString() {
+        return "City{" + "id=" + id + ", ibge_id=" + ibge_id + ", uf=" + uf + ", name=" + name + ", capital=" + capital + ", lon=" + lon + ", lat=" + lat + ", locationPoint=" + locationPoint + ", noAccents=" + noAccents + ", alternativeNames=" + alternativeNames + ", microregions=" + microregions + ", mesoregions=" + mesoregions + ", createdAt=" + createdAt + '}';
+    }
 
 }

@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
@@ -218,6 +219,7 @@ public class CityRestController {
         }
         city.setNoAccents(StringsHelper.unaccent(city.getName()));
         try {
+            city.setLocationPoint(new Point(city.getLat(), city.getLon()));
             cityRepository.save(city);
         } catch (Exception e) {
             return new ResponseEntity<>(Error.INTERNAL_SERVER_ERROR(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -275,6 +277,7 @@ public class CityRestController {
             city.setMicroregions(microregion);
         }
         city.setNoAccents(StringsHelper.unaccent(city.getName()));
+        city.setLocationPoint(new Point(city.getLat(), city.getLon()));
         try {
             cityRepository.save(city);
         } catch (Exception e) {
