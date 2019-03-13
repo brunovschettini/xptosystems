@@ -11,6 +11,7 @@
 DECLARE 
 
 amount NUMBER := 0;
+idproduto NUMBER := 0;
 valor NUMBER := 0;
 DATACAD DATE := SYSDATE - 10;
 x NUMBER := 0;
@@ -42,15 +43,18 @@ BEGIN
         -- EXAME_ITEMNF 1                         
         SELECT CAST(round(dbms_random.value(1,100)) AS number) INTO amount FROM dual;
         SELECT round(dbms_random.value(1,1000), 2) INTO valor FROM dual;
-        INSERT INTO EXAME_ITEMNF (IDNF, IDPRODUTO, NUMERO, QTDE, VALOR) VALUES (xcount, 1, (xcount * (1 + 1000 + amount)) , amount, valor);
+        SELECT CAST(round(dbms_random.value(1,10000)) AS number) INTO idproduto FROM dual;
+        INSERT INTO EXAME_ITEMNF (IDNF, IDPRODUTO, NUMERO, QTDE, VALOR) VALUES (xcount, idproduto, (xcount * (1 + 1000 + amount)) , amount, valor);
         -- EXAME_ITEMNF 2
         SELECT CAST(round(dbms_random.value(1,100)) AS number) INTO amount FROM dual;
         SELECT round(dbms_random.value(1,1000), 2) INTO valor FROM dual;
-        INSERT INTO EXAME_ITEMNF (IDNF, IDPRODUTO, NUMERO, QTDE, VALOR) VALUES (xcount, 1, (xcount * (1 + 1000 + amount)) , amount, valor);
+        SELECT CAST(round(dbms_random.value(1,10000)) AS number) INTO idproduto FROM dual;
+        INSERT INTO EXAME_ITEMNF (IDNF, IDPRODUTO, NUMERO, QTDE, VALOR) VALUES (xcount, idproduto, (xcount * (1 + 1000 + amount)) , amount, valor);
         -- EXAME_ITEMNF 3
         SELECT CAST(round(dbms_random.value(1,100)) AS number) INTO amount FROM dual;
+        SELECT CAST(round(dbms_random.value(1,10000)) AS number) INTO idproduto FROM dual;
         SELECT round(dbms_random.value(1,1000), 2) INTO valor FROM dual;
-        INSERT INTO EXAME_ITEMNF (IDNF, IDPRODUTO, NUMERO, QTDE, VALOR) VALUES (xcount, 1, (xcount * (1 + 1000 + amount)) , amount, valor);
+        INSERT INTO EXAME_ITEMNF (IDNF, IDPRODUTO, NUMERO, QTDE, VALOR) VALUES (xcount, idproduto, (xcount * (1 + 1000 + amount)) , amount, valor);
         
         -- rodar teste
         -- Adicionando itens

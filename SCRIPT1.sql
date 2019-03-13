@@ -31,7 +31,7 @@ create table PRODUTO (
    DESCR varchar2(120) not null,
    ATIVO char(1) DEFAULT 'S' not null
 ); 
-
+/
 
 -- DROP TABLE EMBALAGEM;
 
@@ -49,9 +49,10 @@ create table EMBALAGEM (
    REFERENCES PRODUTO(IDPRODUTO)
 
 );
+/
 
 ALTER TABLE EMBALAGEM ADD CONSTRAINT embalagem_pk PRIMARY KEY (IDPRODUTO, BARRA);
-
+/
  
 
 
@@ -67,11 +68,12 @@ create table EXAME_NF (
     DATACADASTRO DATE not null,
     TOTALGERAL number DEFAULT 0 not null
 );
-
+/
 
 -- select * from EXAME_NF
 
 CREATE SEQUENCE EXAME_NF_seq START WITH 1;
+/
 
 CREATE OR REPLACE TRIGGER EXAME_NF_bir BEFORE INSERT ON EXAME_NF FOR EACH ROW
 BEGIN
@@ -97,7 +99,7 @@ create table EXAME_ITEMNF (
     --            REFERENCES PRODUTO(IDPRODUTO)                    
 
 );
-
+/
 -- select * from EXAME_ITEMNF
 
 CREATE SEQUENCE EXAME_ITEMNF_seq START WITH 1;

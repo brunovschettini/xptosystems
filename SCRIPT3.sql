@@ -8,10 +8,18 @@
 -- Faça com que a linha da tabela EXAME_NF receba o valor da somatória de seus 
 -- itens na coluna TOTALGERAL. Salve o fonte do script no arquivo SCRIPT3.SQL.
 
-CREATE OR REPLACE FUNCTION DEFINIR_VALORES()
-  [(parameter_name [IN | OUT | IN OUT] type [, ...])]
-  RETURN return_datatype
-  {IS | AS}
-  BEGIN
-     < function_body >
-  END [function_name];
+-- DROP PROCEDURE DEFINIR_VALROES();
+
+CREATE OR REPLACE PROCEDURE DEFINIR_VALORES()
+
+
+IS
+    TOTAL number;
+    new_value NUMBER;
+
+BEGIN
+
+    SELECT CAST(round(dbms_random.value(1,100)) AS number) INTO new_value FROM dual;
+
+
+END;
