@@ -73,7 +73,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
   - [GET /city/find/column/[column]/query/[query]](#get-cityfindcolumncolumnqueryquery)
   - [GET /city/stats/count/column/[column]](#get-citystatscountcolumncolumn)  
   - [GET /city/stats/total](#get-citystatstotal)
-  - [GET /city/find/two_most_distant](#get-citytwomostdistant)
+  - [GET /city/find/two_most_distant](#get-cityfindtwo_most_distant)
 
 ### Extras
 
