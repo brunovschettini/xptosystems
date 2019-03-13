@@ -30,4 +30,5 @@ BEGIN
 
 END;
 
+-- URL da ferramenta de teste: https://livesql.oracle.com
 -- EXEC DEFINIR_VALORES(1)
