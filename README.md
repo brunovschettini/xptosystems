@@ -1,6 +1,6 @@
 # XPTO Systems
 
-Desafio das Cidades Sênior
+Desafio das Cidades
 
 * [Considerações](#considerações)
 * [Desenvolvimento](#desenvolvimento)
