@@ -14,7 +14,7 @@ Desafio das Cidades
 
 ## Considerações
 
-Este documento fornece informações e exemplos para as API do desafio da Sênior.
+Este documento fornece informações e exemplos para as API do desafio.
 
 * [Url da API](http://localhost:80/api/)
 
