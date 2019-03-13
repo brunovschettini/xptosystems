@@ -8,18 +8,20 @@
 -- Faça com que a linha da tabela EXAME_NF receba o valor da somatória de seus 
 -- itens na coluna TOTALGERAL. Salve o fonte do script no arquivo SCRIPT3.SQL.
 
--- DROP PROCEDURE DEFINIR_VALROES();
+-- DROP PROCEDURE DEFINIR_VALROES;
 
-CREATE OR REPLACE PROCEDURE DEFINIR_VALORES()
-
+CREATE OR REPLACE PROCEDURE DEFINIR_VALORES(xidnf NUMBER)
 
 IS
-    TOTAL number;
-    new_value NUMBER;
+    TOTAL number := 0;
 
 BEGIN
 
-    SELECT CAST(round(dbms_random.value(1,100)) AS number) INTO new_value FROM dual;
+    UPDATE EXAME_ITEMNF SET VALOR = (SELECT CAST(round(dbms_random.value(1,100)) AS number) FROM dual) WHERE IDNF = xidnf;
 
+    SELECT SUM(VALOR) INTO TOTAL FROM EXAME_ITEMNF WHERE IDNF = xidnf;
+
+    UPDATE EXAME_NF SET TOTALGERAL = TOTAL  WHERE IDNF = xidnf;
 
 END;
+/
