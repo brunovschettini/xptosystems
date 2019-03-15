@@ -83,6 +83,7 @@ public class CityRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/stats/total", produces = "application/json")
     public ResponseEntity<?> total() {
+        // List<City> listx = cityRepository.findByMicroregion("a");
         Integer total = cityRepository.total();
         Map<Object, Object> response = new LinkedHashMap();
         response.put("total", total);
@@ -91,8 +92,38 @@ public class CityRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/stats/count/column/{column}", produces = "application/json")
     public ResponseEntity<?> statsCountByColumnFilter(@PathVariable("column") String column) {
+
         Map<Object, Object> response = new LinkedHashMap();
-        Integer total = new CityDao().count(column);
+        // Integer total = new CityDao().count(column);
+        Integer total = 0;
+        switch (column) {
+            case "uf":
+            case "ufs":
+                total = cityRepository.countByUfs().size();
+                break;
+            case "name":
+            case "names":
+                total = cityRepository.countByName().size();
+                break;
+            case "no_accents":
+                total = cityRepository.countByNoAccents().size();
+                break;
+            case "alternative_names":
+                total = cityRepository.countByAlternativeNames().size();
+                ;
+                break;
+            case "microregion":
+            case "microregions":
+                total = cityRepository.countByMicrorgions().size();
+                break;
+            case "mesoregion":
+            case "mesoregions":
+                total = cityRepository.countByMesoregions().size();
+                break;
+            default:
+                break;
+        }
+
         response.put("column", column);
         response.put("total", total);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -100,7 +131,54 @@ public class CityRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/find/column/{column}/query/{query}", produces = "application/json")
     public ResponseEntity<?> findByColumn(@PathVariable("column") String column, @PathVariable("query") String query) {
-        List<City> cities = new CityDao().find(column, query);
+        List<City> cities = new ArrayList();
+        switch (column) {
+            case "ibge_id":
+            case "ibgeId":
+                try {
+                    Long ibgeId = Long.parseLong(query);
+                    City c = cityRepository.findByIbgeId(ibgeId);
+                    if (c != null) {
+                        cities.add(c);
+                    }
+                } catch (NumberFormatException nfe) {
+                    return new ResponseEntity<>(Error.BAD_REQUEST(nfe.getMessage()), HttpStatus.BAD_REQUEST);
+                }
+                break;
+            case "uf":
+            case "ufs":
+            case "ufName":
+                cities = cityRepository.fetchUfByName(query);
+                break;
+            case "name":
+            case "names":
+                cities = cityRepository.fetchByName(query);
+                break;
+            case "lon":
+                cities = new CityDao().find(column, query);
+                break;
+            case "lat":
+                cities = new CityDao().find(column, query);
+                break;
+            case "no_accents":
+                cities = cityRepository.fetchByNoAccents(query);
+                break;
+            case "alternative_names":
+                cities = cityRepository.fetchByAlternativeNames(query);
+                break;
+            case "microregion":
+            case "microregions":
+            case "microregionName":
+                cities = cityRepository.fetchMicroregionsByName(query);
+                break;
+            case "mesoregion":
+            case "mesoregions":
+            case "mesoregionName":
+                cities = cityRepository.fetchMesoregionsByName(query);
+                break;
+            default:
+                break;
+        }
         if (cities.isEmpty()) {
             return new ResponseEntity<>(cities, HttpStatus.NOT_FOUND);
         }
@@ -135,7 +213,7 @@ public class CityRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/find/ibge_id/{ibge_id}", produces = "application/json")
     public ResponseEntity<?> findByIbgeId(@PathVariable("ibge_id") Long ibge_id) {
-        City city = cityRepository.findByIbge_id(ibge_id);
+        City city = cityRepository.findByIbgeId(ibge_id);
         if (city == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -174,10 +252,10 @@ public class CityRestController {
         if (city.getName().isEmpty()) {
             return new ResponseEntity<>(Error.BAD_REQUEST("empty name!"), HttpStatus.BAD_REQUEST);
         }
-        if (city.getIbge_id() == null || city.getIbge_id() == 0) {
+        if (city.getIbgeId() == null || city.getIbgeId() == 0) {
             return new ResponseEntity<>(Error.BAD_REQUEST("empty ibge id!"), HttpStatus.BAD_REQUEST);
         }
-        City c = cityRepository.findByIbge_id(city.getIbge_id());
+        City c = cityRepository.findByIbgeId(city.getIbgeId());
         if (c != null) {
             return new ResponseEntity<>(Error.BAD_REQUEST("exists ibge_id city!"), HttpStatus.BAD_REQUEST);
         }
@@ -288,7 +366,7 @@ public class CityRestController {
 
     @RequestMapping(value = "/{ibge_id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteByIbgeId(@PathVariable("ibge_id") Long ibge_id) {
-        City city = cityRepository.findByIbge_id(ibge_id);
+        City city = cityRepository.findByIbgeId(ibge_id);
         if (city == null || city.getId() == null) {
             return new ResponseEntity<>(Error.BAD_REQUEST("city not found!"), HttpStatus.NOT_FOUND);
         }

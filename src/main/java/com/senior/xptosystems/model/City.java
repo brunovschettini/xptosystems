@@ -13,6 +13,19 @@ import org.springframework.data.geo.Point;
 
         }
 )
+@NamedNativeQueries({
+    @NamedNativeQuery(name = "City.countByUfs", query = "SELECT count(*) FROM city C GROUP BY C.uf_id")
+    ,@NamedNativeQuery(name = "City.countByName", query = "SELECT count(*) FROM city C GROUP BY C.name")
+    ,@NamedNativeQuery(name = "City.countByNoAccents", query = "SELECT count(*) FROM city C GROUP BY C.no_accents")
+    ,@NamedNativeQuery(name = "City.countByAlternativeNames", query = "SELECT count(*) FROM city C GROUP BY C.alternative_names")
+    ,@NamedNativeQuery(name = "City.countByMicrorgions", query = "SELECT count(*) FROM city C GROUP BY C.microregions_id")
+    ,@NamedNativeQuery(name = "City.countByMesoregions", query = "SELECT count(*) FROM city C GROUP BY C.mesoregions_id")
+})
+@NamedQueries({
+    @NamedQuery(name = "City.fetchByLat", query = "SELECT C FROM City C WHERE C.lat >= :queryParam ORDER BY C.lat ASC")
+    ,@NamedQuery(name = "City.fetchByLon", query = "SELECT C FROM City C WHERE C.lon >= :queryParam ORDER BY C.lon ASC")
+})
+
 public class City implements Serializable {
 
     @Id
@@ -22,7 +35,7 @@ public class City implements Serializable {
 
     @JoinColumn
     @Column(name = "ibge_id", nullable = false)
-    private Long ibge_id;
+    private Long ibgeId;
 
     @JoinColumn
     @OneToOne
@@ -73,7 +86,7 @@ public class City implements Serializable {
 
     public City(Long id, Long ibge_code, Uf uf, String name, Boolean capital, Double lon, Double lat, String noAccents, String alternativeNames, Microregion microregions, Mesoregion mesoregions, Date createdAt) {
         this.id = id;
-        this.ibge_id = ibge_code;
+        this.ibgeId = ibgeId;
         this.uf = uf;
         this.name = name;
         this.capital = capital;
@@ -87,8 +100,8 @@ public class City implements Serializable {
         this.locationPoint = new Point(lat, lon);
     }
 
-    public City(Long ibge_id, String ufName, String name, Boolean capital, Double lon, Double lat, String noAccents, String alternativeNames, String microregionName, String mesoregionName) {
-        this.ibge_id = ibge_id;
+    public City(Long ibgeId, String ufName, String name, Boolean capital, Double lon, Double lat, String noAccents, String alternativeNames, String microregionName, String mesoregionName) {
+        this.ibgeId = ibgeId;
         this.ufName = ufName;
         this.name = name;
         this.capital = capital;
@@ -109,12 +122,12 @@ public class City implements Serializable {
         this.id = id;
     }
 
-    public Long getIbge_id() {
-        return ibge_id;
+    public Long getIbgeId() {
+        return ibgeId;
     }
 
-    public void setIbge_id(Long ibge_id) {
-        this.ibge_id = ibge_id;
+    public void setIbgeId(Long ibgeId) {
+        this.ibgeId = ibgeId;
     }
 
     public Uf getUf() {
@@ -238,7 +251,7 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return "City{" + "id=" + id + ", ibge_id=" + ibge_id + ", uf=" + uf + ", name=" + name + ", capital=" + capital + ", lon=" + lon + ", lat=" + lat + ", locationPoint=" + locationPoint + ", noAccents=" + noAccents + ", alternativeNames=" + alternativeNames + ", microregions=" + microregions + ", mesoregions=" + mesoregions + ", createdAt=" + createdAt + '}';
+        return "City{" + "id=" + id + ", ibgeId=" + ibgeId + ", uf=" + uf + ", name=" + name + ", capital=" + capital + ", lon=" + lon + ", lat=" + lat + ", locationPoint=" + locationPoint + ", noAccents=" + noAccents + ", alternativeNames=" + alternativeNames + ", microregions=" + microregions + ", mesoregions=" + mesoregions + ", createdAt=" + createdAt + '}';
     }
 
 }

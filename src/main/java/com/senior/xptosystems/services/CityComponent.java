@@ -146,7 +146,7 @@ public class CityComponent implements ICityComponent {
         String dotString = "";
         for (City c : cities) {
             if (c.getId() == null) {
-                City c1 = cityRepository.findByIbge_id(c.getIbge_id());
+                City c1 = cityRepository.findByIbgeId(c.getIbgeId());
                 if (c1 == null) {
                     if (c.getUf() == null) {
                         Uf uf = ufRepository.findByNameIgnoreCase(c.getUfName());

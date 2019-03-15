@@ -11,6 +11,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CityDao {
 
+    /**
+     *
+     * Substituídos por métodos mágicos do sring e por @NamedQuery
+     *
+     * @param column
+     * @param query
+     */
+    @Deprecated
     public List<City> find(String column, String query) {
         if (column == null || column.isEmpty()) {
             return new ArrayList();
@@ -60,6 +68,13 @@ public class CityDao {
         }
     }
 
+    /**
+     *
+     * Substituídos por @NamedNativeQuery
+     *
+     * @param column
+     */
+    @Deprecated
     public Integer count(String column) {
         if (column == null || column.isEmpty()) {
             return 0;
@@ -67,7 +82,7 @@ public class CityDao {
         String queryString = "";
         switch (column) {
             case "uf":
-                queryString = "SELECT count(*) FROM city C GROUP BY C.uf_id ";
+                queryString = "SELECT count(*) FROM city C GROUP BY C.uf_id";
                 break;
             case "name":
                 queryString = "SELECT count(*) FROM city C GROUP BY C.name ";
