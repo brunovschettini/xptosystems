@@ -116,7 +116,7 @@ Resposta (Http Status 200):
     [
         {
             "id": null,
-            "ibge_id": null,
+            "ibgeId": null,
             "uf": {
                 "id": null,
                 "name": "UF"
@@ -146,7 +146,7 @@ Resposta (Http Status 200):
         },
         {
             "id": null,
-            "ibge_id": null,
+            "ibgeId": null,
             "uf": {
                 "id": null,
                 "name": "UF"
@@ -221,7 +221,7 @@ Resposta (Http Status 200):
 
     {
         "id": null,
-        "ibge_id": null,
+        "ibgeId": null,
         "uf": {
             "id": null,
             "name": "UF"
@@ -261,7 +261,7 @@ Resposta (Http Status 200):
     [
          {
             "id": null,
-            "ibge_id": null,
+            "ibgeId": null,
             "uf": {
                 "id": null,
                 "name": "UF"
@@ -291,7 +291,7 @@ Resposta (Http Status 200):
         },
         {
             "id": null,
-            "ibge_id": null,
+            "ibgeId": null,
             "uf": {
                 "id": null,
                 "name": "UF"
@@ -347,7 +347,7 @@ Raw:
     
     {
         "id": null,
-        "ibge_id": 1234567,
+        "ibgeId": 1234567,
         "uf": {
             "id": 5,
             "name": "PA"
@@ -376,7 +376,7 @@ Resposta (Http Status 200):
         "status": "success: city nº 1004 registered",
         "result": {
             "id": 1004,
-            "ibge_id": 1234567,
+            "ibgeId": 1234567,
             "uf": {
                 "id": 5,
                 "name": "PA"
@@ -458,7 +458,7 @@ Resposta (200 - OK):
     [
         {
             "id": 152,
-            "ibge_id": 1500107,
+            "ibgeId": 1500107,
             "uf": {
                 "id": 5,
                 "name": "PA"
@@ -488,7 +488,7 @@ Resposta (200 - OK):
         },
         {
             "id": 153,
-            "ibge_id": 1500131,
+            "ibgeId": 1500131,
             "uf": {
                 "id": 5,
                 "name": "PA"
@@ -582,7 +582,7 @@ Resposta (Http Status 200):
 
     {
         "id": 1,
-        "ibge_id": 1234567,
+        "ibgeId": 1234567,
         "uf": {
             "id": 1,
             "name": "UF"
