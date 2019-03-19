@@ -6,11 +6,11 @@ import com.senior.xptosystems.config.Settings;
 import com.senior.xptosystems.model.City;
 import com.senior.xptosystems.model.Mesoregion;
 import com.senior.xptosystems.model.Microregion;
-import com.senior.xptosystems.model.Uf;
+import com.senior.xptosystems.model.State;
 import com.senior.xptosystems.repositories.CityRepository;
 import com.senior.xptosystems.repositories.MesoregionRepository;
 import com.senior.xptosystems.repositories.MicroregionRepository;
-import com.senior.xptosystems.repositories.UfRepository;
+import com.senior.xptosystems.repositories.StateRepository;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,7 +41,7 @@ public class CityComponent implements ICityComponent {
     Settings settings;
 
     @Autowired
-    UfRepository ufRepository;
+    StateRepository stateRepository;
 
     @Autowired
     MicroregionRepository microregionRepository;
@@ -148,14 +148,14 @@ public class CityComponent implements ICityComponent {
             if (c.getId() == null) {
                 City c1 = cityRepository.findByIbgeId(c.getIbgeId());
                 if (c1 == null) {
-                    if (c.getUf() == null) {
-                        Uf uf = ufRepository.findByNameIgnoreCase(c.getUfName());
-                        if (uf == null) {
-                            uf = new Uf();
-                            uf.setName(c.getUfName());
-                            ufRepository.save(uf);
+                    if (c.getState() == null) {
+                        State state = stateRepository.findByNameIgnoreCase(c.getUfName());
+                        if (state == null) {
+                            state = new State();
+                            state.setName(c.getUfName());
+                            stateRepository.save(state);
                         }
-                        c.setUf(uf);
+                        c.setState(state);
                     }
                 }
                 if (c.getMicroregions() == null) {
@@ -176,7 +176,7 @@ public class CityComponent implements ICityComponent {
                     }
                     c.setMesoregions(mesoregionRepository.getOne(mesoregion.getId()));
                 }
-            }            
+            }
             cityRepository.save(c);
             int per = ((count * 100) / cities.size());
             if (perMem != per) {
