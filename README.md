@@ -58,12 +58,12 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
 ### API Recursos
 
   - [GET /status](#get-status) 
-  - [POST /city/upload](#post-cityupload)  
-  - [GET /city/find/capitals](#get-cityfindcapitals)
-  - [GET /city/stats/min_max_uf](#get-citystatsmin_max_uf)
-  - [GET /city/stats/count/cities/uf/[uf]](#get-citystatscountcitiesufuf)
-  - [GET /city/find/ibge_id/[ibge_id]](#get-cityfindibge_idibge_id)
-  - [GET /city/find/uf/[uf]](#get-cityfindufuf)
+  - [POST /city/readCsv](#post-readCsv)  
+  - [GET /city/capital](#get-citycapital)
+  - [GET /city/statesBiggerAndSmallerNumberOfCities](#get-citystatesBiggerAndSmallerNumberOfCities)
+  - [GET /city/numberOfCitiesByState/[stateName]](#get-citynumberOfCitiesByStatestatename)
+  - [GET /city/findByIbgeId/[ibgeId]](#get-cityfindByIbgeIdIbgeId)
+  - [GET /city/findByState/[stateName]](#get-cityfindbystatestatename)
   - [POST /city](#post-city)
   - [DELETE /city/[ibge_id]](#delete-cityibge_id)  
   - [GET /city/find/column/[column]/query/[query]](#get-cityfindcolumncolumnqueryquery)
@@ -84,11 +84,11 @@ Resposta:
 
     [200 - OK]
 
-### POST /city/upload
+### POST /city/readCsv
 
  - Permite o upload de arquivo CSV das cidades para a base de dados; 
 
-Exemplo: http://localhost/api/city/upload
+Exemplo: http://localhost/api/city/readCsv
 
 Teste via Postman: 
 
@@ -105,11 +105,11 @@ Param:
     key: csv (type file)
     value: select file (procurar o local do arquivo)
 
-### GET /city/find/capitals
+### GET /city/capital
 
  - Retornar somente as cidades que são capitais ordenadas por nome
 
-Exemplo: http://localhost/api/city/find/capitals
+Exemplo: http://localhost/api/city/capital
 
 Resposta (Http Status 200):
 
@@ -177,11 +177,11 @@ Resposta (Http Status 200):
     ]
 
 
-### GET /city/stats/min_max_uf
+### GET /city/statesBiggerAndSmallerNumberOfCities
 
  - Retornar o nome do estado com a maior e menor quantidade de cidades e a quantidade de cidades
 
-Exemplo: http://localhost/api//city/stats/min_max_uf
+Exemplo: http://localhost/api//city/statesBiggerAndSmallerNumberOfCities
 
 Resposta (Http Status 200):
 
@@ -198,31 +198,31 @@ Resposta (Http Status 200):
         ]
     ] 
 
-### GET /city/stats/count/cities/uf/[uf]
+### GET /city/numberOfCitiesByState/[stateName]
 
  - Retornar a quantidade de cidades por estado; 
 
-Exemplo: http://localhost/api/city/stats/count/cities/uf/ac
+Exemplo: http://localhost/api/city/numberOfCitiesByState/[stateName]
 
 Resposta (Http Status 200):
 
     {
-        "uf": "AC",
+        "state": "AC",
         "total": 22
     } 
 
-### GET /city/find/ibge_id/[ibge_id]
+### GET /city/findByIbgeId/[ibgeId]
 
  - Obter os dados da cidade informando o id do IBGE
 
-Exemplo: http://localhost/api/city/find/ibge_id/1234567
+Exemplo: http://localhost/api/city/findByIbgeId/[ibgeId]
 
 Resposta (Http Status 200):
 
     {
         "id": null,
         "ibgeId": null,
-        "uf": {
+        "state": {
             "id": null,
             "name": "UF"
         },
@@ -250,11 +250,11 @@ Resposta (Http Status 200):
         "mesoregionName": null
     }
     
-### GET /city/find/uf/[uf]
+### GET /city/findByState/[stateName]
 
  - Retornar o nome das cidades baseado em um estado selecionado
 
-Example: http://localhost/api/city/find/uf/sp
+Example: http://localhost/api/city/findByState/[stateName]
 
 Resposta (Http Status 200):
 
@@ -262,7 +262,7 @@ Resposta (Http Status 200):
          {
             "id": null,
             "ibgeId": null,
-            "uf": {
+            "state": {
                 "id": null,
                 "name": "UF"
             },
@@ -292,7 +292,7 @@ Resposta (Http Status 200):
         {
             "id": null,
             "ibgeId": null,
-            "uf": {
+            "state": {
                 "id": null,
                 "name": "UF"
             },
@@ -348,7 +348,7 @@ Raw:
     {
         "id": null,
         "ibgeId": 1234567,
-        "uf": {
+        "state": {
             "id": 5,
             "name": "PA"
         },
@@ -377,7 +377,7 @@ Resposta (Http Status 200):
         "result": {
             "id": 1004,
             "ibgeId": 1234567,
-            "uf": {
+            "state": {
                 "id": 5,
                 "name": "PA"
             },
@@ -406,11 +406,38 @@ Resposta (Http Status 200):
         }
     }
     
- ### DELETE /city/[ibge_id]
+ ### DELETE /city/deleteByIbgeId[ibgeId]
+
+ - Permitir deletar uma cidade pelo id do IBGE
+ 
+ Example: http://localhost/api/city/deleteByIbgeId/[ibgeId]
+ 
+Content-Type:
+
+    application/json 
+
+Resposta (Status Code 200):
+
+    {
+        "status_code": 1,
+        "status": "success: city nº 1234567 removed",
+        "result": null
+    }
+
+Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api. Se status_code = 0 identifica que houve algum erro:
+
+    {
+        "status": 404,
+        "message": "empty city!",
+        "timestamp": "2019-03-11T15:30:58.316+0000"
+    }
+    
+    
+ ### DELETE /city/[id]
 
  - Permitir deletar uma cidade
  
- Example: http://localhost/api/city/1234567
+ Example: http://localhost/api/city/[id]
  
 Content-Type:
 
@@ -432,7 +459,9 @@ Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api.
         "timestamp": "2019-03-11T15:30:58.316+0000"
     }
 
-### GET /city/find/column/[column]/query/[query]
+
+
+### GET /city/findByColumn/[column]/[filter]
 
  - Permitir selecionar uma coluna (do CSV) e através dela entrar com uma string para filtrar. retornar assim todos os objetos que contenham tal string
  
@@ -441,13 +470,13 @@ Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api.
 | COLUMN             | TYPE        | EXAMPLE     |
 | ------------------ | ----------- | ---------   |
 | ibge_id            | Long        | 1234567     |
-| uf                 | String      | SP          |
+| state              | String      | SP          |
 | no_accents         | String      | rio         |
 | alternative_names  | String      | salvador    |
 | microregion        | String      | jequitin    |
 | mesoregion         | String      | vale        |
 
-Example: http://localhost/api/city/find/column/uf/query/sp
+Example: http://localhost/api/city/findByColumn/[column]/[filter]
 
 Content-Type:
 
@@ -459,7 +488,7 @@ Resposta (200 - OK):
         {
             "id": 152,
             "ibgeId": 1500107,
-            "uf": {
+            "state": {
                 "id": 5,
                 "name": "PA"
             },
@@ -489,7 +518,7 @@ Resposta (200 - OK):
         {
             "id": 153,
             "ibgeId": 1500131,
-            "uf": {
+            "state": {
                 "id": 5,
                 "name": "PA"
             },
@@ -518,11 +547,13 @@ Resposta (200 - OK):
         }
     ]    
     
-### GET /city/stats/count/column/[column]
+### GET /city/countByColumn/[column]
 
 - Retornar a quantidade de registro baseado em uma coluna. Não deve contar itens iguais 
 
-* Column [opções de colunas]: ibge_id, uf, name, no_accents, alternative_names, microregion e mesoregion
+Example: http://localhost/api/city/countByColumn/[column]
+
+* Column [opções de colunas]: ibge_id, state, name, no_accents, alternative_names, microregion e mesoregion
 
 Content-Type:
 
@@ -531,13 +562,15 @@ Content-Type:
 Resposta (Status Code 200):
 
     {
-        "column": "uf",
+        "column": "state",
         "total": 0
     }
     
-### GET /city/stats/total  
+### GET /city/countAll
 
 - Retornar a quantidade de registros total
+
+Example: http://localhost/api/city/findByColumn/[column]/[filter]
 
 Content-Type:
 
@@ -549,11 +582,11 @@ Resposta (Status Code 200):
         "total": 1003
     }
 
-### GET /city/find/two_most_distant
+### GET /city/find/findTwoDistanceCities
 
 - Dentre todas as cidades, obter as duas cidades mais distantes uma da outra com base na localização (distância em KM em linha reta)
 
-Example: http://localhost/api/city/find/two_most_distant
+Example: http://localhost/api/city/findTwoDistanceCities
 
 Content-Type:
 
@@ -572,7 +605,7 @@ Resposta (Status Code 200):
 
  - Obter os dados da cidade informando o id cadastrado na base de dados
 
-Exemplo: http://localhost/api/city/1
+Exemplo: http://localhost/api/city/[id]
 
 Content-Type:
 
@@ -583,7 +616,7 @@ Resposta (Http Status 200):
     {
         "id": 1,
         "ibgeId": 1234567,
-        "uf": {
+        "state": {
             "id": 1,
             "name": "UF"
         },
