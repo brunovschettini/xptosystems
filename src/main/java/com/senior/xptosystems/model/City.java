@@ -14,7 +14,7 @@ import org.springframework.data.geo.Point;
         }
 )
 @NamedNativeQueries({
-    @NamedNativeQuery(name = "City.countByUfs", query = "SELECT count(*) FROM city C GROUP BY C.uf_id")
+    @NamedNativeQuery(name = "City.countByStates", query = "SELECT count(*) FROM city C GROUP BY C.state_id")
     ,@NamedNativeQuery(name = "City.countByName", query = "SELECT count(*) FROM city C GROUP BY C.name")
     ,@NamedNativeQuery(name = "City.countByNoAccents", query = "SELECT count(*) FROM city C GROUP BY C.no_accents")
     ,@NamedNativeQuery(name = "City.countByAlternativeNames", query = "SELECT count(*) FROM city C GROUP BY C.alternative_names")
@@ -39,7 +39,7 @@ public class City implements Serializable {
 
     @JoinColumn
     @OneToOne
-    private Uf uf;
+    private State state;
 
     @Column(nullable = false, length = 255, columnDefinition = "varchar(255) default ''")
     private String name;
@@ -84,10 +84,10 @@ public class City implements Serializable {
 
     }
 
-    public City(Long id, Long ibge_code, Uf uf, String name, Boolean capital, Double lon, Double lat, String noAccents, String alternativeNames, Microregion microregions, Mesoregion mesoregions, Date createdAt) {
+    public City(Long id, Long ibge_code, State state, String name, Boolean capital, Double lon, Double lat, String noAccents, String alternativeNames, Microregion microregions, Mesoregion mesoregions, Date createdAt) {
         this.id = id;
         this.ibgeId = ibgeId;
-        this.uf = uf;
+        this.state = state;
         this.name = name;
         this.capital = capital;
         this.lon = lon;
@@ -130,12 +130,12 @@ public class City implements Serializable {
         this.ibgeId = ibgeId;
     }
 
-    public Uf getUf() {
-        return uf;
+    public State getState() {
+        return state;
     }
 
-    public void setUf(Uf uf) {
-        this.uf = uf;
+    public void setState(State state) {
+        this.state = state;
     }
 
     public String getName() {
@@ -251,7 +251,7 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return "City{" + "id=" + id + ", ibgeId=" + ibgeId + ", uf=" + uf + ", name=" + name + ", capital=" + capital + ", lon=" + lon + ", lat=" + lat + ", locationPoint=" + locationPoint + ", noAccents=" + noAccents + ", alternativeNames=" + alternativeNames + ", microregions=" + microregions + ", mesoregions=" + mesoregions + ", createdAt=" + createdAt + '}';
+        return "City{" + "id=" + id + ", ibgeId=" + ibgeId + ", state=" + state + ", name=" + name + ", capital=" + capital + ", lon=" + lon + ", lat=" + lat + ", locationPoint=" + locationPoint + ", noAccents=" + noAccents + ", alternativeNames=" + alternativeNames + ", microregions=" + microregions + ", mesoregions=" + mesoregions + ", createdAt=" + createdAt + '}';
     }
 
 }
