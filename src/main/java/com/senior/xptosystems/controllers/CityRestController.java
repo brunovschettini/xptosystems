@@ -53,10 +53,10 @@ public class CityRestController {
     MesoregionRepository mesoregionRepository;
 
     /**
-     * Studies
-     * http://localhost/api/city/?number=0&size=10&sort=name
+     * Studies http://localhost/api/city/?number=0&size=10&sort=name
+     *
      * @param pageable
-     * @return 
+     * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/", produces = "application/json")
     public ResponseEntity<?> findAll(Pageable pageable) {
@@ -226,9 +226,9 @@ public class CityRestController {
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/findByState/{state}", produces = "application/json")
-    public ResponseEntity<?> findByState(@PathVariable("state") String state) {
-        State stateAux = stateRepository.findByNameIgnoreCase(state);
+    @RequestMapping(method = RequestMethod.GET, value = "/findByState/{stateName}", produces = "application/json")
+    public ResponseEntity<?> findByState(@PathVariable("stateName") String stateName) {
+        State stateAux = stateRepository.findByNameIgnoreCase(stateName);
         if (stateAux == null) {
             return new ResponseEntity<>(Error.BAD_REQUEST("state not found!"), HttpStatus.BAD_REQUEST);
         }
@@ -343,13 +343,12 @@ public class CityRestController {
         } catch (Exception e) {
             return new ResponseEntity<>(Error.INTERNAL_SERVER_ERROR(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(city, HttpStatus.OK);
+        return new ResponseEntity<>(city, HttpStatus.CREATED);
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<?> update(@RequestBody City city) {
-
         if (city.getId() == null) {
             return new ResponseEntity<>(Error.BAD_REQUEST("new register! use POST to store/save!"), HttpStatus.BAD_REQUEST);
         }
