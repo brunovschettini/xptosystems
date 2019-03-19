@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-public class Uf implements Serializable {
+public class State implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +14,10 @@ public class Uf implements Serializable {
     @Column(nullable = false, unique = true, length = 2, columnDefinition = "varchar(2) default ''")
     private String name;
 
-    public Uf() {
+    public State() {
     }
 
-    public Uf(Long id, String name) {
+    public State(Long id, String name) {
         this.id = id;
         this.name = name;
     }
