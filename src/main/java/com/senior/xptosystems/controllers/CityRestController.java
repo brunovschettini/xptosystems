@@ -19,6 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(path = "/cities")
+@RequestMapping(path = "/city")
 public class CityRestController {
 
     @Autowired
@@ -49,6 +51,21 @@ public class CityRestController {
 
     @Autowired
     MesoregionRepository mesoregionRepository;
+
+    /**
+     * Studies
+     * http://localhost/api/city/?number=0&size=10&sort=name
+     * @param pageable
+     * @return 
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/", produces = "application/json")
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        Page<City> cities = cityRepository.findAll(pageable);
+        if (cities.isEmpty()) {
+            return new ResponseEntity<>(cities, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(cities, HttpStatus.OK);
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/readCsv", produces = "application/json")
     public ResponseEntity<?> readCsv(MultipartFile csv) throws IOException {
@@ -246,7 +263,7 @@ public class CityRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/findTwoDistanceCities", produces = "application/json")
     public ResponseEntity<?> findTwoDistanceCities() {
-        List<Object[]> rows = cityRepository.findTwoDistanceCities();
+        List<Object[]> rows = cityRepository.twoCitiesMoreDistant();
         if (rows.isEmpty()) {
             return new ResponseEntity<>(new ArrayList(), HttpStatus.NOT_FOUND);
         }

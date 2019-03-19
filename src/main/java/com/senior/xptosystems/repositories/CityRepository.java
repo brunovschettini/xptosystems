@@ -2,6 +2,8 @@ package com.senior.xptosystems.repositories;
 
 import com.senior.xptosystems.model.City;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CityRepository extends JpaRepository<City, Long> {
 
-    @Query("SELECT C FROM City C WHERE C.capital = 1 ORDER BY C.name")
+    @Query("SELECT C FROM City C WHERE C.capital = true ORDER BY C.name")
     List<City> capital();
 
     // @Query("SELECT C FROM City C WHERE C.ibge_id = ?1")
@@ -70,7 +72,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
             + "              INNER JOIN State AS sta2 ON sta2.id = B.state_id \n"
             + "             WHERE a.id = (select c3.id from city c3 where c3.location_point in (select max(location_point) as max from city)) AND b.id = (select id from city where location_point in (select min(location_point) as max from city))"
             + "", nativeQuery = true)
-    List findTwoDistanceCities();
+    List twoCitiesMoreDistant();
 
     @Query(value = "SELECT * FROM city C INNER JOIN State sta ON sta.id = c.state_id WHERE UPPER(c.name) LIKE UPPER('%' || :name || '%' ) ORDER BY sta.name ASC, C.no_accents ASC", nativeQuery = true)
     List<City> fetchByName(@Param("name") String name);
