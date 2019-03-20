@@ -572,7 +572,7 @@ Resposta (Status Code 200):
 
 - Retornar a quantidade de registros total
 
-Example: http://localhost/api/city/findByColumn/[column]/[filter]
+Example: http://localhost/api/city/countAll
 
 Content-Type:
 
@@ -584,7 +584,7 @@ Resposta (Status Code 200):
         "total": 1003
     }
 
-### GET /city/find/findTwoDistanceCities
+### GET /city/findTwoDistanceCities
 
 - Dentre todas as cidades, obter as duas cidades mais distantes uma da outra com base na localização (distância em KM em linha reta)
 
