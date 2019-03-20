@@ -23,8 +23,8 @@ public interface CityRepository extends JpaRepository<City, Long> {
             value = " "
             + "(\n"
             + " SELECT \n"
-            + "    'bigger' AS type, \n"
-            + "    u.name, count(*) cityCount\n"
+            + "    'bigger' AS aliasName, \n"
+            + "    sta.name, count(*) cityCount\n"
             + "    FROM city C\n"
             + "    INNER JOIN State AS sta ON sta.id = C.state_id \n"
             + "    GROUP BY sta.name \n"
@@ -34,8 +34,8 @@ public interface CityRepository extends JpaRepository<City, Long> {
             + "UNION ALL\n"
             + "(\n"
             + "    SELECT \n"
-            + "    'smaller' AS type,\n"
-            + "    u.name, count(*) cityCount\n"
+            + "    'smaller' AS aliasName,\n"
+            + "    sta.name, count(*) cityCount\n"
             + "    FROM city C\n"
             + "    INNER JOIN State AS sta ON sta.id = C.state_id \n"
             + "    GROUP BY sta.name \n"
@@ -84,10 +84,10 @@ public interface CityRepository extends JpaRepository<City, Long> {
     @Query(value = "SELECT * FROM city C INNER JOIN State sta ON sta.id = c.state_id WHERE UPPER(sta.name) LIKE UPPER('%' || :stateName || '%' ) ORDER BY sta.name ASC, C.no_accents ASC", nativeQuery = true)
     List<City> fetchStateByName(@Param("stateName") String stateName);
 
-    @Query(value = "SELECT * FROM city C INNER JOIN mesoregion mr ON mr.id = c.microregions_id WHERE UPPER(mr.name) LIKE UPPER('%' || :mesoregionName || '%' ) ORDER BY sta.name ASC, MR.name, C.no_accents", nativeQuery = true)
+    @Query(value = "SELECT * FROM city C INNER JOIN mesoregion mr ON mr.id = c.mesoregions_id WHERE UPPER(mr.name) LIKE UPPER('%' || :mesoregionName || '%' ) ORDER BY MR.name, C.no_accents", nativeQuery = true)
     List<City> fetchMesoregionsByName(@Param("mesoregionName") String mesoregionName);
 
-    @Query(value = "SELECT * FROM city C INNER JOIN microregion mr ON mr.id = c.microregions_id WHERE UPPER(mr.name) LIKE UPPER('%' || :microregionName || '%' ) ORDER BY sta.name ASC, MR.name, C.no_accents", nativeQuery = true)
+    @Query(value = "SELECT * FROM city C INNER JOIN microregion mr ON mr.id = c.microregions_id WHERE UPPER(mr.name) LIKE UPPER('%' || :microregionName || '%' ) ORDER BY MR.name, C.no_accents", nativeQuery = true)
     List<City> fetchMicroregionsByName(@Param("microregionName") String microregionName);
 
     // COUNTS
@@ -99,7 +99,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
     List countByAlternativeNames();
 
-    List countByMicrorgions();
+    List countByMicroregions();
 
     List countByMesoregions();
 

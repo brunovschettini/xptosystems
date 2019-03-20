@@ -143,7 +143,7 @@ public class CityRestController {
             case "microregions":
             case "microregionName":
             case "microregionsName":
-                total = cityRepository.countByMicrorgions().size();
+                total = cityRepository.countByMicroregions().size();
                 break;
             case "mesoregion":
             case "mesoregions":
@@ -240,7 +240,7 @@ public class CityRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "numberOfCitiesByState/{stateName}", produces = "application/json")
-    public ResponseEntity<?> numberOfCitiesByState(@PathVariable("state") String stateName) throws IOException {
+    public ResponseEntity<?> numberOfCitiesByState(@PathVariable("stateName") String stateName) throws IOException {
         State state = stateRepository.findByNameIgnoreCase(stateName);
         if (state == null) {
             return new ResponseEntity<>(Error.BAD_REQUEST("state not found!"), HttpStatus.BAD_REQUEST);

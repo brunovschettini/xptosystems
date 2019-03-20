@@ -18,7 +18,7 @@ import org.springframework.data.geo.Point;
     ,@NamedNativeQuery(name = "City.countByName", query = "SELECT count(*) FROM city C GROUP BY C.name")
     ,@NamedNativeQuery(name = "City.countByNoAccents", query = "SELECT count(*) FROM city C GROUP BY C.no_accents")
     ,@NamedNativeQuery(name = "City.countByAlternativeNames", query = "SELECT count(*) FROM city C GROUP BY C.alternative_names")
-    ,@NamedNativeQuery(name = "City.countByMicrorgions", query = "SELECT count(*) FROM city C GROUP BY C.microregions_id")
+    ,@NamedNativeQuery(name = "City.countByMicroregions", query = "SELECT count(*) FROM city C GROUP BY C.microregions_id")
     ,@NamedNativeQuery(name = "City.countByMesoregions", query = "SELECT count(*) FROM city C GROUP BY C.mesoregions_id")
 })
 @NamedQueries({
