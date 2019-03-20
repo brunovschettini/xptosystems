@@ -58,7 +58,7 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
 ### API Recursos
 
   - [GET /status](#get-status) 
-  - [POST /city/readCsv](#post-readCsv)  
+  - [POST /city/readCsv](#post-cityreadcsv)  
   - [GET /city/capital](#get-citycapital)
   - [GET /city/statesBiggerAndSmallerNumberOfCities](#get-citystatesBiggerAndSmallerNumberOfCities)
   - [GET /city/numberOfCitiesByState/[stateName]](#get-citynumberofcitiesbystatestatename)
@@ -68,13 +68,15 @@ Depois da primeira execução as entidades serão criadas no banco de dados e o 
   - [DELETE /city/deleteByIbgeId/[ibge_id]](#delete-citydeletebyibgeidibgeid)  
   - [GET /city/findByColumn/[column]/[filter]](#get-cityfindbycolumncolumnfilter)
   - [GET /city/countByColumn/[column]](#get-citycountbycolumncolumn)  
-  - [GET /city/stats/total](#get-citystatstotal)
-  - [GET /city/find/two_most_distant](#get-cityfindtwo_most_distant)
+  - [GET /city/countAll](#get-citycountall)
+  - [GET /city/findTwoDistanceCities](#get-cityfindtwodistancecities)
 
 ### Extras
 
+  - [GET /city](#get-city)  
   - [PUT /city](#put-city)
   - [GET /city/[id]](#get-cityid)
+  - [DELETE /city/[id]](#delete-cityid)  
 
 ### GET /status
 
@@ -435,7 +437,7 @@ Resposta (Status Code 404) (Com erro) e o apresenta a exceção gerada pela api.
     
  ### DELETE /city/[id]
 
- - Permitir deletar uma cidade
+ - Permitir deletar uma cidade pelo id
  
  Example: http://localhost/api/city/[id]
  
