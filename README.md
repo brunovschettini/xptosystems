@@ -183,7 +183,7 @@ Resposta (Http Status 200):
 
  - Retornar o nome do estado com a maior e menor quantidade de cidades e a quantidade de cidades
 
-Exemplo: http://localhost/api//city/statesBiggerAndSmallerNumberOfCities
+Exemplo: http://localhost/api/city/statesBiggerAndSmallerNumberOfCities
 
 Resposta (Http Status 200):
 
@@ -329,9 +329,9 @@ Resposta (Http Status 200):
  
  * Se não existir estado, microregion ou mesoregion, serão adicionadas, porém devem ser enviadas pelos parâmetros
  
-    - mesoregion_name: valor
-    - microregion_name: valor
-    - uf_name: valor
+    - mesoregion: valor
+    - microregion: valor
+    - state: valor
  
 * Teste feito pela ferramenta de testes Postman, formato de envio usado foi raw tipo application/json
 
@@ -348,22 +348,16 @@ Charset:
 Raw:
     
     {
-        "id": null,
         "ibgeId": 1234567,
-        "state": {
-            "id": 5,
-            "name": "PA"
-        },
         "name": "parará",
         "capital": false,
-        "lon": 0,
-        "lat": 0,
+        "lon": 1.0000000,
+        "lat": 11.0000000,
         "noAccents": "parara",
         "alternativeNames": "parararara",
-        "createdAt": "1900-01-01T00:00:00.000+0000",
-        "ufName": null,
-        "microregionName": "microregion do parara name",
-        "mesoregionName": "mesoregion do parara"
+        "state": null,
+        "microregion": "microregion do parara name",
+        "mesoregion": "mesoregion do parara"
     }
 
 

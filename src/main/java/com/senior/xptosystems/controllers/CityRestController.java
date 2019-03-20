@@ -6,6 +6,7 @@ import com.senior.xptosystems.model.City;
 import com.senior.xptosystems.model.Mesoregion;
 import com.senior.xptosystems.model.Microregion;
 import com.senior.xptosystems.model.State;
+import com.senior.xptosystems.model.dto.CityDTO;
 import com.senior.xptosystems.repositories.CityRepository;
 import com.senior.xptosystems.repositories.MesoregionRepository;
 import com.senior.xptosystems.repositories.MicroregionRepository;
@@ -14,7 +15,9 @@ import com.senior.xptosystems.services.ICityComponent;
 import com.senior.xptosystems.utils.Error;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Point;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
@@ -284,9 +288,20 @@ public class CityRestController {
         return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/findByIdIn/{ids}", produces = "application/json")
+    public ResponseEntity<?> findByIdIn(@PathVariable("ids") List<Long> ids) {
+        List<Long> listLong = new ArrayList();
+        List<City> cities = cityRepository.findByIdIn(ids);
+        if (cities.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(cities, HttpStatus.OK);
+    }
+
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> store(@RequestBody City city) {
+    public ResponseEntity<?> store(@RequestBody CityDTO cityDTO) {
+        City city = cityDTO.toObject();
         if (city.getId() != null) {
             return new ResponseEntity<>(Error.BAD_REQUEST("exists city! use PUT to update!"), HttpStatus.BAD_REQUEST);
         }

@@ -84,6 +84,10 @@ public class City implements Serializable {
 
     }
 
+    public City(Long id) {
+        this.id = id;
+    }
+
     public City(Long id, Long ibge_code, State state, String name, Boolean capital, Double lon, Double lat, String noAccents, String alternativeNames, Microregion microregions, Mesoregion mesoregions, Date createdAt) {
         this.id = id;
         this.ibgeId = ibgeId;

@@ -13,8 +13,9 @@ public interface CityRepository extends JpaRepository<City, Long> {
     @Query("SELECT C FROM City C WHERE C.capital = true ORDER BY C.name")
     List<City> capital();
 
-    // @Query("SELECT C FROM City C WHERE C.ibge_id = ?1")
     City findByIbgeId(Long ibgeId);
+
+    List<City> findByIdIn(List<Long> ids);
 
     @Query("SELECT C FROM City C WHERE C.state.id = ?1 ORDER BY C.name")
     List<City> findByState(Long id);
